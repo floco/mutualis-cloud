@@ -4,8 +4,8 @@ services:
     image: linuxserver/smokeping
     container_name: smokeping
     volumes:
-      - /opt/appdata/smokeping/config:/config
-      - /opt/appdata/smokeping/data:/data
+      - /home/rancher/smokeping/config:/config
+      - /home/rancher/smokeping/data:/data
     ports:
       - 27025:80
     environment:
