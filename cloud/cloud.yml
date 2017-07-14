@@ -11,4 +11,4 @@ services:
     environment:
       - PUID=${PUID}
       - PGID=${PGID}
-    restart: always test
+    restart: always
