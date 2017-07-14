@@ -9,6 +9,6 @@ services:
     ports:
       - 27025:80
     environment:
-      - PUID=${PUID}
-      - PGID=${PGID}
+      - PUID=1100
+      - PGID=1100
     restart: always
