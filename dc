@@ -29,8 +29,16 @@ case "$2" in
         cd ..
         exit 0
         ;;
+
+  remove)
+        cd $DIR
+        docker-compose stop
+        docker-compose rm
+        cd ..
+        exit 0
+        ;;
   *)
-        echo "Usage: dc {cloud|media|wordpress} {start|stop|restart|status}"
+        echo "Usage: dc {cloud|media|wordpress} {start|stop|restart|status|remove}"
         exit 1
 esac
 
