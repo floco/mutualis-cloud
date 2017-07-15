@@ -1,0 +1,37 @@
+#! /bin/sh
+
+DIR=$1
+
+case "$2" in
+  start)
+        cd $DIR
+        docker-compose up -d
+        cd ..
+        exit 0
+        ;;
+  stop)
+        cd $DIR
+        docker-compose stop
+        cd ..
+        exit 0
+        ;;
+
+  restart)
+        cd $DIR
+        docker-compose restart
+        cd ..
+        exit 0
+        ;;
+
+  status)
+        cd $DIR
+        docker-compose ps
+        cd ..
+        exit 0
+        ;;
+  *)
+        echo "Usage: dc {cloud|media|wordpress} {start|stop|restart|status}"
+        exit 1
+esac
+
+exit 0
