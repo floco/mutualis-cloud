@@ -34,6 +34,7 @@ case "$2" in
         cd $DIR
         docker-compose stop
         docker-compose rm
+        
         cd ..
         exit 0
         ;;
