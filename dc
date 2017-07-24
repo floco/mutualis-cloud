@@ -1,6 +1,7 @@
 #! /bin/sh
 
-DIR=$1
+SCRIPT_PATH=$(dirname $(realpath -s $0))
+DIR=$SCRIPT_PATH/$1
 
 case "$2" in
   start)
