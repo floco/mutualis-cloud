@@ -10,8 +10,8 @@ services:
     ports:
       - 8001:80
     environment:
-      - PUID=${UID}
-      - PGID=${UID}
+      - PUID=1100
+      - PGID=1100
     restart: always
   
   portainer:
