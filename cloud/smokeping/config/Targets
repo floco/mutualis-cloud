@@ -15,7 +15,7 @@ title = Home
 
 menu = IP1
 title = floco.duckdns.org
-host = floco.duckdns.org
+host = floco.duckdns.orgold
 alerts = bigloss,startloss,rttdetect
 #alerts = bigloss,someloss,startloss,rttdetect
 

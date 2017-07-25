@@ -6,7 +6,7 @@ contact  = info@mutualis.com
 # NOTE: do not put the Image Cache below cgi-bin
 # since all files under cgi-bin will be executed ... this is not
 # good for images.
-cgiurl   = http://monitoring.mutualis.com/cgi-bin/smokeping.cgi
+cgiurl   = http://monitoring.mutualis.com/smokeping/smokeping.cgi
 # specify this to get syslog logging
 syslogfacility = local0
 # each probe is now run in its own process
