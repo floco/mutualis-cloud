@@ -6,7 +6,10 @@
 # - c9.io
 # - dns
 # - dhcp
-# - 
+# - nextcloud
+# - gitlab
+# - ansible silo
+# - lichee or photoshow
 
 
 version: '2'

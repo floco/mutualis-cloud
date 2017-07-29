@@ -1,0 +1,26 @@
+# Services to include:
+# - portainer
+# - keeweb
+# - borg backup client
+# - dns
+# - dhcp
+# - ansible silo
+# - omv
+# - pyload
+# - openvpn
+# - plex or equivalent
+# - lms
+# - hass.io
+
+version: '2'
+services:
+  
+  portainer:
+    image: portainer/portainer
+    container_name: portainer
+    volumes:
+      - /var/run/docker.sock:/var/run/docker.sock
+      - ${HOME}/mutualis-cloud/cloud/portainer/data:/data
+    ports:
+      - 8002:9000
+    restart: always
