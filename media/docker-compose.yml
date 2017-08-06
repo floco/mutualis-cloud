@@ -20,9 +20,9 @@ services:
     image: portainer/portainer
     volumes:
       - /var/run/docker.sock:/var/run/docker.sock
-      - ${HOME}/mutualis-cloud/cloud/portainer:/data
+      - ${VOLUMES_ROOT}/portainer:/data
     ports:
-      - 8000:9000
+      - 9000:9000
     restart: always
 
   muximux:
@@ -32,9 +32,9 @@ services:
       - PUID=${PUID}
       - PGID=${PGID}
     volumes:
-      - ${HOME}/mutualis-cloud/cloud/muximux:/config
+      - ${VOLUMES_ROOT}/muximux:/config
     ports:
-      - 8001:80
+      - 80:80
     restart: always
 
   pyload:
@@ -42,18 +42,18 @@ services:
     image: writl/pyload:0.4.9
     volumes:
       - /tmp:/opt/pyload/Downloads
-      - ${HOME}/mutualis-cloud/cloud/pyload:/opt/pyload/pyload-config
+      - ${VOLUMES_ROOT}/pyload:/opt/pyload/pyload-config
     ports:
-      - 8002:8000
+      - 8001:8000
     restart: always
 
   keeweb:
     container_name: keeweb
     image: antelle/keeweb
     volumes:
-      - ${HOME}/mutualis-cloud/cloud/keeweb:/etc/nginx/external/
+      - ${VOLUMES_ROOT}/keeweb:/etc/nginx/external/
     ports:
-      - 8003:443
+      - 8002:443
     restart: always
 
   smb:
@@ -72,7 +72,7 @@ services:
     container_name: openvpn
     image: kylemanna/openvpn:latest
     volumes:
-      - ${HOME}/mutualis-cloud/cloud/openvpn:/etc/openvpn
+      - ${VOLUMES_ROOT}/openvpn:/etc/openvpn
     ports:
       - 1194/udp:1194
     restart: always
@@ -92,6 +92,23 @@ services:
       - TOKEN=${DUCKDNS_TOKEN}
       - PUID=${PUID}
       - PGID=${PGID}
+    restart: always
+
+  cups:
+    container_name: cups
+    image: mnbf9rca/cups-google-print
+    environment:
+      - CUPS_USER_ADMIN=${CUPS_USER_ADMIN}
+      - CUPS_USER_PASSWORD=${CUPS_USER_PASSWORD}
+      - TZ=Europe/Paris
+      - TCP_PORT_631=631
+    volumes:
+      - ${VOLUMES_ROOT}/cups:/config
+      - /dev:/dev
+      - /etc/avahi/services:/avahi
+      - /var/run/dbus:/var/run/dbus
+    network_mode: "host"
+    privileged: true
     restart: always
 
   watchtower:
