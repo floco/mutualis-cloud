@@ -107,13 +107,15 @@ services:
     restart: always
 
   glances:
+    image: docker.io/nicolargo/glances
     container_name: glances
-    image: nicolargo/glances
-    volumes:
-      - /var/run/docker.sock:/var/run/docker.sock
     ports:
-      - 9001:61208
-    pid: host
+      - "9001-9002:61208-61209"
+    volumes:
+      - /var/run/docker.sock:/var/run/docker.sock:ro
+    environment:
+      - GLANCES_OPT=-w
+    pid: "host"
 
   watchtower:
     container_name: watchtower
