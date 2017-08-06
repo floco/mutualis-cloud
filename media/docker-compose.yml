@@ -20,7 +20,7 @@ services:
     image: portainer/portainer
     volumes:
       - /var/run/docker.sock:/var/run/docker.sock
-      - ${HOME}/mutualis-cloud/cloud/portainer/data:/data
+      - ${HOME}/mutualis-cloud/cloud/portainer:/data
     ports:
       - 8000:9000
     restart: always
