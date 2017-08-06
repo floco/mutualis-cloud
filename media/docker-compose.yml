@@ -106,6 +106,15 @@ services:
     privileged: true
     restart: always
 
+  glances:
+    container_name: glances
+    image: nicolargo/glances
+    volumes:
+      - /var/run/docker.sock:/var/run/docker.sock
+    ports:
+      - 9001:61208
+    pid: host
+
   watchtower:
     container_name: watchtower
     image: v2tec/watchtower:latest
