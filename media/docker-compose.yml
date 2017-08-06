@@ -22,7 +22,17 @@ services:
       - /var/run/docker.sock:/var/run/docker.sock
       - ${HOME}/mutualis-cloud/cloud/portainer/data:/data
     ports:
-      - 8002:9000
+      - 8000:9000
+    restart: always
+
+  keeweb:
+    container_name: keeweb
+    image: antelle/keeweb
+    volumes:
+      - ${HOME}/mutualis-cloud/cloud/keeweb:/etc/nginx/external/
+    ports:
+      - 8001:80
+      - 8002:443
     restart: always
 
   duckdns:
