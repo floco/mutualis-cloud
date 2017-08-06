@@ -16,13 +16,35 @@ version: '2'
 services:
 
   portainer:
-    image: portainer/portainer
     container_name: portainer
+    image: portainer/portainer
     volumes:
       - /var/run/docker.sock:/var/run/docker.sock
       - ${HOME}/mutualis-cloud/cloud/portainer/data:/data
     ports:
       - 8000:9000
+    restart: always
+
+  muximux:
+    container_name: muximux
+    image: linuxserver/muximux
+    environment:
+      - PUID=${PUID}
+      - PGID=${PGID}
+    volumes:
+      - ${HOME}/mutualis-cloud/cloud/muximux:/config
+    ports:
+      - 8001:80
+    restart: always
+
+  pyload:
+    container_name: pyload
+    image: writl/pyload:0.4.9
+    volumes:
+      - /tmp:/opt/pyload/Downloads
+      - ${HOME}/mutualis-cloud/cloud/pyload:/opt/pyload/pyload-config
+    ports:
+      - 8002:8000
     restart: always
 
   keeweb:
@@ -31,8 +53,35 @@ services:
     volumes:
       - ${HOME}/mutualis-cloud/cloud/keeweb:/etc/nginx/external/
     ports:
-      - 8001:80
-      - 8002:443
+      - 8003:443
+    restart: always
+
+  smb:
+    container_name: smb
+    image: jenserat/samba-publicshare:latest
+    volumes:
+      - /tmp:/srv
+    ports:
+      - 137:137
+      - 138:139
+      - 139:139
+      - 445:445
+    restart: always
+
+  openvpn:
+    container_name: openvpn
+    image: kylemanna/openvpn:latest
+    volumes:
+      - ${HOME}/mutualis-cloud/cloud/openvpn:/etc/openvpn
+    ports:
+      - 1194/udp:1194
+    restart: always
+
+  ansible:
+    container_name: ansible
+    image: grpn/ansible-silo:latest
+    volumes:
+      - /usr/local/bin:/silo_install_path
     restart: always
 
   duckdns:
@@ -44,3 +93,9 @@ services:
       - PUID=${PUID}
       - PGID=${PGID}
     restart: always
+
+  watchtower:
+    container_name: watchtower
+    image: v2tec/watchtower:latest
+    volumes:
+      - /var/run/docker.sock:/var/run/docker.sock
