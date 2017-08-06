@@ -72,13 +72,6 @@ services:
       - 1194/udp:1194
     restart: always
 
-  ansible:
-    container_name: ansible
-    image: grpn/ansible-silo:latest
-    volumes:
-      - /usr/local/bin:/silo_install_path
-    restart: always
-
   duckdns:
     container_name: duckdns
     image: linuxserver/duckdns:latest
