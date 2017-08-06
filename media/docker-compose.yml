@@ -1,13 +1,8 @@
 # Services to include:
-# - portainer
-# - keeweb
 # - borg backup client
 # - dns
 # - dhcp
-# - ansible silo
 # - omv
-# - pyload
-# - openvpn
 # - plex or equivalent
 # - lms
 # - hass.io
@@ -37,16 +32,6 @@ services:
       - 80:80
     restart: always
 
-  pyload:
-    container_name: pyload
-    image: writl/pyload:0.4.9
-    volumes:
-      - /tmp:/opt/pyload/Downloads
-      - ${VOLUMES_ROOT}/pyload:/opt/pyload/pyload-config
-    ports:
-      - 8001:8000
-    restart: always
-
   keeweb:
     container_name: keeweb
     image: antelle/keeweb
@@ -54,6 +39,16 @@ services:
       - ${VOLUMES_ROOT}/keeweb:/etc/nginx/external/
     ports:
       - 8002:443
+    restart: always
+
+  pyload:
+    container_name: pyload
+    image: writl/pyload:0.4.9
+    volumes:
+      - /tmp:/opt/pyload/Downloads
+      - ${VOLUMES_ROOT}/pyload:/opt/pyload/pyload-config
+    ports:
+      - 8003:8000
     restart: always
 
   smb:
