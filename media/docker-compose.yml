@@ -14,7 +14,7 @@
 
 version: '2'
 services:
-  
+
   portainer:
     image: portainer/portainer
     container_name: portainer
@@ -23,4 +23,14 @@ services:
       - ${HOME}/mutualis-cloud/cloud/portainer/data:/data
     ports:
       - 8002:9000
+    restart: always
+
+  duckdns:
+    container_name: duckdns
+    image: linuxserver/duckdns:latest
+    environment:
+      - SUBDOMAINS=${DUCKDNS_SUBDOMAINS}
+      - TOKEN=${DUCKDNS_TOKEN}
+      - PUID=${PUID}
+      - PGID=${PGID}
     restart: always
