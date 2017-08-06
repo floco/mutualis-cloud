@@ -62,7 +62,7 @@ services:
       - 139:139
       - 445:445
     environment:
-      - workgroup=WORKGROUP   
+      - workgroup=WORKGROUP
     tty: true
     restart: always
 
@@ -72,7 +72,9 @@ services:
     volumes:
       - ${VOLUMES_ROOT}/openvpn:/etc/openvpn
     ports:
-      - 1194/udp:1194
+      - 1194:1194/udp
+    cap_add:
+      - NET_ADMIN
     restart: always
 
   duckdns:
