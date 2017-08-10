@@ -92,9 +92,11 @@ services:
     ports:
       - 53:53/tcp
       - 53:53/udp
+    volumes:
+      - ${VOLUMES_ROOT}/dnsmasq/hosts:/etc/hosts
     cap_add:
       - NET_ADMIN
-    command: "--addn-hosts=${VOLUMES_ROOT}/dnsmasq --log-facility=-"
+    command: "--address=/.${DOCKER_DNS_DOMAIN}/${DOCKER_MACHINE_IP} --addn-hosts=${VOLUMES_ROOT}/dnsmasq --log-facility=-"
 
   cups:
     container_name: cups
