@@ -94,7 +94,7 @@ services:
       - 53:53/udp
     cap_add:
       - NET_ADMIN
-    command: "--address=/.${DOCKER_DNS_DOMAIN}/${DOCKER_MACHINE_IP}"
+    command: "--address=/.${DOCKER_DNS_DOMAIN}/${DOCKER_MACHINE_IP} --addn-hosts=${VOLUMES_ROOT}/dnsmasq"
 
   cups:
     container_name: cups
