@@ -1,7 +1,5 @@
 # Services to include:
 # - borg backup client
-# - dns
-# - dhcp
 # - omv
 # - plex or equivalent
 # - lms
@@ -87,6 +85,16 @@ services:
       - PUID=${PUID}
       - PGID=${PGID}
     restart: always
+
+  dnsmasq:
+    container_name: dnsmasq
+    image: andyshinn/dnsmasq:latest
+    ports:
+      - 53:53/tcp
+      - 53:53/udp
+    cap_add:
+      - NET_ADMIN
+    command: "--address=/.${DOCKER_DNS_DOMAIN}/${DOCKER_MACHINE_IP}"
 
   cups:
     container_name: cups
