@@ -96,7 +96,7 @@ services:
 #      - ${VOLUMES_ROOT}/dnsmasq:/etc
     cap_add:
       - NET_ADMIN
-    command: "--address=/.${DOCKER_DNS_DOMAIN}/${DOCKER_MACHINE_IP} --addn-hosts=${VOLUMES_ROOT}/dnsmasq --log-facility=-"
+    command: "--address=/.${DOCKER_DNS_DOMAIN}/${DOCKER_MACHINE_IP} --addn-hosts=${VOLUMES_ROOT}/dnsmasq/hosts --log-facility=-"
 
   cups:
     container_name: cups
