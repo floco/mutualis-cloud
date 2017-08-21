@@ -6,7 +6,7 @@
 # - hass.io
 
 version: '2'
-services:
+services:  
 
   portainer:
     container_name: portainer
