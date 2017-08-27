@@ -1,5 +1,4 @@
 # Services to include:
-# - borg backup client
 # - omv
 # - plex or equivalent
 # - lms
@@ -125,6 +124,15 @@ services:
     environment:
       - GLANCES_OPT=-w
     pid: "host"
+
+  borgmatic:
+    image: b3vis/borgmatic
+    container_name: borg
+    volumes:
+      - /home:/source/home:ro
+      - ${VOLUMES_ROOT}/borg/config:/config
+      - ${VOLUMES_ROOT}/borg/cache:/cache
+#      - /mnt/borg:/repository
 
   watchtower:
     container_name: watchtower
