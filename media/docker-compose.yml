@@ -96,6 +96,7 @@ services:
     cap_add:
       - NET_ADMIN
     command: "--address=/.${DOCKER_DNS_DOMAIN}/${DOCKER_MACHINE_IP} --addn-hosts=/tmp --log-facility=-"
+    restart: always
 
   cups:
     container_name: cups
@@ -124,6 +125,7 @@ services:
     environment:
       - GLANCES_OPT=-w
     pid: "host"
+    restart: always
 
   borgmatic:
     image: b3vis/borgmatic
@@ -133,9 +135,13 @@ services:
       - ${VOLUMES_ROOT}/borg/config:/config
       - ${VOLUMES_ROOT}/borg/cache:/cache
 #      - /mnt/borg:/repository
+    restart: always
 
-  watchtower:
-    container_name: watchtower
-    image: v2tec/watchtower:latest
-    volumes:
-      - /var/run/docker.sock:/var/run/docker.sock
+# To uncomment if you want to manage upgrade of docker images automatically
+# Until docker-compose issue #1896 becomes available
+#  watchtower:
+#    container_name: watchtower
+#    image: v2tec/watchtower:latest
+#    volumes:
+#      - /var/run/docker.sock:/var/run/docker.sock
+#    restart: always
