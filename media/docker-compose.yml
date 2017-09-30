@@ -137,6 +137,13 @@ services:
 #      - /mnt/borg:/repository
     restart: always
 
+  fava:
+    image: docker pull yegle/fava
+    container_name: fava
+    ports:
+      - "8004:5000"
+    restart: always
+
 # To uncomment if you want to manage upgrade of docker images automatically
 # Until docker-compose issue #1896 becomes available
 #  watchtower:
