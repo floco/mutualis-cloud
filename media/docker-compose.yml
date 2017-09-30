@@ -140,6 +140,8 @@ services:
   fava:
     image: docker pull yegle/fava
     container_name: fava
+    environment:
+      - BEANCOUNT_INPUT_FILE=${VOLUMES_ROOT}/fava
     ports:
       - "8004:5000"
     restart: always
