@@ -141,9 +141,9 @@ services:
     image: yegle/fava
     container_name: fava
     volumes:
-      - ${VOLUMES_ROOT}/fava/main.beancount:/tmp
+      - ${VOLUMES_ROOT}/fava:/root
     environment:
-      - BEANCOUNT_INPUT_FILE=/tmp/main.beancount
+      - BEANCOUNT_INPUT_FILE=/root/main.beancount
     ports:
       - "8004:5000"
     restart: always
