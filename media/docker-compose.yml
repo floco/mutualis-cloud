@@ -138,7 +138,7 @@ services:
     restart: always
 
   fava:
-    image: docker pull yegle/fava
+    image: yegle/fava
     container_name: fava
     environment:
       - BEANCOUNT_INPUT_FILE=${VOLUMES_ROOT}/fava
