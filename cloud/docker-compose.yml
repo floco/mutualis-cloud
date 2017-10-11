@@ -19,13 +19,14 @@ services:
     image: linuxserver/smokeping
     container_name: smokeping
     volumes:
-      - ${HOME}/mutualis-cloud/cloud/smokeping/config:/config
-      - ${HOME}/mutualis-cloud/cloud/smokeping/data:/data
+      - ${VOLUMES_ROOT}/smokeping/config:/config
+      - ${VOLUMES_ROOT}/smokeping/data:/data
     ports:
       - 8001:80
     environment:
-      - PUID=1100
-      - PGID=1100
+      - PUID=${PUID}
+      - PGID=${PGID}
+      - TZ=Europe/Paris
     restart: always
   
   portainer:
@@ -33,7 +34,7 @@ services:
     container_name: portainer
     volumes:
       - /var/run/docker.sock:/var/run/docker.sock
-      - ${HOME}/mutualis-cloud/cloud/portainer/data:/data
+      - ${VOLUMES_ROOT}/portainer:/data
     ports:
       - 8002:9000
     restart: always
