@@ -136,7 +136,7 @@ services:
       - ${VOLUMES_ROOT}/borg/config:/config
       - ${VOLUMES_ROOT}/borg/cache:/cache
     environment:
-      - BORG_PASSPHRASE: ${BORG_PASSPHRASE}
+      - BORG_PASSPHRASE=${BORG_PASSPHRASE}
     restart: always
 
   gogs:
