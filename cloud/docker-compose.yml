@@ -1,8 +1,5 @@
 # Services to include:
-# - smokeping
-# - portainer
 # - keeweb
-# - borg backup server
 # - c9.io
 # - dns
 # - dhcp
