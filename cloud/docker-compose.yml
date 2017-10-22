@@ -28,7 +28,17 @@ services:
       - PGID=${PGID}
       - TZ=Europe/Paris
     restart: always
-  
+
+  borg-server:
+    image: b3vis/borg-server
+    container_name: borg-server
+    volumes:
+      - ${VOLUMES_ROOT}/borg-server/backups:/backups
+      - ${VOLUMES_ROOT}/borg-server/.ssh:/home/borg/.ssh
+    ports:
+      - 8003:22
+    restart: always
+
   portainer:
     image: portainer/portainer
     container_name: portainer
