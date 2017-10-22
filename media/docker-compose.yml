@@ -149,16 +149,6 @@ services:
       - "8005:3000"
     restart: always
 
-  pass:
-    image: mapitman/password-store
-    container_name: pass
-    volumes:
-      - ${VOLUMES_ROOT}/pass/.password-store:/root/.password-store
-      - ${VOLUMES_ROOT}/pass/.gnupg:/root/gnupg:ro
-    ports:
-      - "9004:22"
-    restart: always
-
   fava:
     image: yegle/fava
     container_name: fava
