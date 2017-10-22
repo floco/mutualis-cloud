@@ -22,7 +22,7 @@ services:
       - ${VOLUMES_ROOT}/smokeping/config:/config
       - ${VOLUMES_ROOT}/smokeping/data:/data
     ports:
-      - "8001":"80"
+      - "8001:80"
     environment:
       - PUID=${PUID}
       - PGID=${PGID}
@@ -36,7 +36,7 @@ services:
       - ${VOLUMES_ROOT}/borg-server/backups:/backups
       - ${VOLUMES_ROOT}/borg-server/.ssh:/home/borg/.ssh
     ports:
-      - "10022":"22"
+      - "10022:22"
     restart: always
 
   portainer:
@@ -46,7 +46,7 @@ services:
       - /var/run/docker.sock:/var/run/docker.sock
       - ${VOLUMES_ROOT}/portainer:/data
     ports:
-      - "8002":"9000"
+      - "8002:9000"
     restart: always
 
     #8003 is for awx to merge there
