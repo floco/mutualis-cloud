@@ -131,8 +131,8 @@ services:
     image: b3vis/borgmatic
     container_name: borg
     volumes:
-      - /home:/source/home:ro
-      - /root/.ssh:/root/.ssh:ro
+      - ${VOLUMES_ROOT}/borg/backups:/source/home:ro
+      - /home/core/.ssh:/root/.ssh:ro
       - ${VOLUMES_ROOT}/borg/config:/config
       - ${VOLUMES_ROOT}/borg/cache:/cache
     environment:
