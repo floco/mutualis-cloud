@@ -132,10 +132,21 @@ services:
     container_name: borg
     volumes:
       - /home:/source/home:ro
+      - /root/.ssh:/root/.ssh:ro
       - ${VOLUMES_ROOT}/borg/config:/config
       - ${VOLUMES_ROOT}/borg/cache:/cache
-#      - /mnt/borg:/repository
+    environment:
+      - BORG_PASSPHRASE: ${BORG_PASSPHRASE}
     restart: always
+
+  gogs:
+    image: gogs/gogs
+    container_name: gogs
+    volumes:
+      - ${VOLUMES_ROOT}/gogs:/data
+    ports:
+      - "9005:22"
+      - "8005:3000"
 
   fava:
     image: yegle/fava
