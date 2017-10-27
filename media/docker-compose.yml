@@ -139,6 +139,20 @@ services:
       - BORG_PASSPHRASE=${BORG_PASSPHRASE}
     restart: always
 
+# docker-compose exec zerotier /zerotier-cli join ${ZEROTIER_NETWORK}
+  zerotier:
+    image: zerotier/zerotier-containerized
+    container_name: zerotier
+    volumes:
+      - ${VOLUMES_ROOT}/zerotier:/var/lib/zerotier-one
+    cap_add:
+      - NET_ADMIN
+      - SYS_ADMIN
+    net: host
+    devices:
+      - /dev/net/tun:/dev/net/tun
+    restart: always
+
   gogs:
     image: gogs/gogs
     container_name: gogs
