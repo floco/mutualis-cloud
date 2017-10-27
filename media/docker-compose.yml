@@ -148,7 +148,7 @@ services:
     cap_add:
       - NET_ADMIN
       - SYS_ADMIN
-    net: host
+    network_mode: "host"
     devices:
       - /dev/net/tun:/dev/net/tun
     restart: always
