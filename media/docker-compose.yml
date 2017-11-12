@@ -92,13 +92,11 @@ services:
       - "53:53/tcp"
       - "53:53/udp"
       - "67:67/udp"
-      - "68:68/udp"
     volumes:
       - ${VOLUMES_ROOT}/dnsmasq:/tmp
     cap_add:
       - NET_ADMIN
-    network_mode: "host"
-    command: "--address=/.${DOCKER_DNS_DOMAIN}/${DOCKER_MACHINE_IP} --dhcp-broadcast --dhcp-authoritative --domain=${DOCKER_DNS_DOMAIN} --dhcp-range=${DOCKER_DHCP_RANGE},24h --addn-hosts=/tmp/dns-hosts --dhcp-hostsfile=/tmp/dhcp-hosts --dhcp-optsfile=/tmp/dhcp-options --log-facility=-"
+    command: "--address=/.${DOCKER_DNS_DOMAIN}/${DOCKER_MACHINE_IP} --dhcp-authoritative --domain=${DOCKER_DNS_DOMAIN} --dhcp-range=${DOCKER_DHCP_RANGE},24h --addn-hosts=/tmp/dns-hosts --dhcp-hostsfile=/tmp/dhcp-hosts --dhcp-optsfile=/tmp/dhcp-options --log-facility=-"
     restart: always
 
   cups:
