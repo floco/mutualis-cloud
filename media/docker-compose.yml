@@ -17,14 +17,14 @@ services:
       - 9000:9000
     restart: always
 
-  muximux:
-    container_name: muximux
-    image: linuxserver/muximux
+  organizr:
+    container_name: organizr
+    image: lsiocommunity/organizr
     environment:
       - PUID=${PUID}
       - PGID=${PGID}
     volumes:
-      - ${VOLUMES_ROOT}/muximux:/config
+      - ${VOLUMES_ROOT}/organizr:/config
     ports:
       - 80:80
     restart: always
@@ -184,3 +184,21 @@ services:
 #    volumes:
 #      - /var/run/docker.sock:/var/run/docker.sock
 #    restart: always
+
+# SMARTPHONES
+b0:19:c6:b4:82:2f,iphone_x,192.168.1.150,infinite
+c0:ee:fb:58:e2:20,oneplus_onex,192.168.1.151,infinite
+54:e4:3a:28:fe:75,iphone_5S,192.168.1.152,infinite
+38:f2:3e:23:af:30,lumia,192.168.1.153,infinite
+
+# TABLETS
+54:e4:3a:dd:b6:56,ipad_mini,192.168.1.160,infinite
+dc:a4:ca:dc:c9:35,ipad_pro,192.168.1.161,infinite
+ff:ff:ff:ff:ff:ff,ipad_un,192.168.1.162,infinite
+ff:ff:ff:ff:ff:ff,archos,192.168.1.163,infinite
+
+# EREADERS
+84:d6:d0:45:1f:cd,kindle_evy,192.168.1.170,infinite
+ff:ff:ff:ff:ff:ff,kindle_mia,192.168.1.171,infinite
+ff:ff:ff:ff:ff:ff,kindle_momo,192.168.1.172,infinite
+ff:ff:ff:ff:ff:ff,nook_juju,192.168.1.173,infinite
