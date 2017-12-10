@@ -6,7 +6,7 @@ binary = /usr/sbin/fping
 
 + TCPPing
 
-binary = /usr/bin/tcpping # mandatory
+binary = /config/tcpping # mandatory
 forks = 5
 offset = 50%
 step = 300
