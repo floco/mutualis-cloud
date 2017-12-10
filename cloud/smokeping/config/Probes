@@ -4,3 +4,15 @@
 
 binary = /usr/sbin/fping
 
++ TCPPing
+
+binary = /usr/bin/tcpping # mandatory
+forks = 5
+offset = 50%
+step = 300
+tcptraceroute = -e "sudo /bin/tcptraceroute"
+timeout = 15
+
+# The following variables can be overridden in each target section
+pings = 5
+port = 80

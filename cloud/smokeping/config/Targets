@@ -4,7 +4,7 @@ probe = FPing
 
 menu = Top
 title = Network Latency Grapher
-remark = Welcome to the SmokePing website of mutualis SPRL. 
+remark = Welcome to the SmokePing website of mutualis SPRL.
 
 + Home
 
@@ -13,9 +13,12 @@ title = Home
 
 ++ IP1
 
-menu = IP1
+probe = TCPPing
 title = floco.duckdns.org
+menu = IP1
 host = floco.duckdns.org
+pings = 5
+port = 10150
 alerts = bigloss,startloss,rttdetect
 #alerts = bigloss,someloss,startloss,rttdetect
 
