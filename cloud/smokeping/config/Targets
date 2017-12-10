@@ -13,12 +13,12 @@ title = Home
 
 ++ IP1
 
-probe = TCPPing
+#probe = TCPPing
 title = floco.duckdns.org
 menu = IP1
 host = floco.duckdns.org
-pings = 5
-port = 10150
+#pings = 5
+#port = 10150
 alerts = bigloss,startloss,rttdetect
 #alerts = bigloss,someloss,startloss,rttdetect
 
