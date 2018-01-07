@@ -39,6 +39,7 @@ services:
     #8003 is for awx to merge there
 
 # docker-compose exec rest-server create_user backup
+# TODO: add https://github.com/restic/rest-server/tree/master/examples/compose-with-grafana
   rest-server:
     image: restic/rest-server
     container_name: rest-server
@@ -48,4 +49,5 @@ services:
       - "8004:8000"
     environment:
       - OPTIONS="--prometheus"
+      - DISABLE_AUTHENTICATION=1
     restart: always
