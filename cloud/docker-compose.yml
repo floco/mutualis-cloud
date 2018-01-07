@@ -3,7 +3,7 @@
 # - c9.io
 # - dns
 # - dhcp
-# - nextcloud
+# - nextcloud, projectsend or pydio
 # - gitlab
 # - ansible silo
 # - lichee or photoshow
@@ -26,16 +26,6 @@ services:
       - TZ=Europe/Paris
     restart: always
 
-  borg-server:
-    image: b3vis/borg-server
-    container_name: borg-server
-    volumes:
-      - ${VOLUMES_ROOT}/borg-server/backups:/backups
-      - ${VOLUMES_ROOT}/borg-server/.ssh:/home/borg/.ssh
-    ports:
-      - "10022:22"
-    restart: always
-
   portainer:
     image: portainer/portainer
     container_name: portainer
@@ -47,3 +37,12 @@ services:
     restart: always
 
     #8003 is for awx to merge there
+
+  rest-server:
+    image: restic/rest-server
+    container_name: rest-server
+    volumes:
+      - ${VOLUMES_ROOT}/rest-server/backups:/backups
+    ports:
+      - "8004:80"
+    restart: always    
