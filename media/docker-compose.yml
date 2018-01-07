@@ -129,6 +129,7 @@ services:
     pid: "host"
     restart: always
 
+# docker-compose exec restic restic init
   restic:
     restart: always
     image: jsmitsnl/docker-restic:latest
