@@ -48,5 +48,5 @@ services:
     ports:
       - "8004:8000"
     environment:
-      - OPTIONS="--prometheus"
+      - OPTIONS= --prometheus --debug --log /var/log/messages 
     restart: always
