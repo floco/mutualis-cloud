@@ -42,7 +42,7 @@ services:
     image: restic/rest-server
     container_name: rest-server
     volumes:
-      - ${VOLUMES_ROOT}/rest-server/backups:/backups
+      - ${VOLUMES_ROOT}/rest-server:/backups
     ports:
       - "8004:80"
-    restart: always    
+    restart: always
