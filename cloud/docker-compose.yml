@@ -44,7 +44,7 @@ services:
     image: restic/rest-server
     container_name: rest-server
     volumes:
-      - ${VOLUMES_ROOT}/rest-server:/backups
+      - ${VOLUMES_ROOT}/rest-server:/data
     ports:
       - "8004:8000"
     environment:
