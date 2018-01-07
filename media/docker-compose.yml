@@ -129,7 +129,10 @@ services:
     pid: "host"
     restart: always
 
-# docker-compose exec restic restic init
+# CREATE REPO: docker-compose exec restic restic init
+# LIST SNAPSHOTS: docker-compose exec restic restic snapshots
+# MANUAL BACKUP: docker-compose exec restic restic backup /data
+
   restic:
     restart: always
     image: jsmitsnl/docker-restic:latest

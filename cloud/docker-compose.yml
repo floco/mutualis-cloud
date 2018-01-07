@@ -40,6 +40,7 @@ services:
 
 # docker-compose exec rest-server create_user backup
 # TODO: add https://github.com/restic/rest-server/tree/master/examples/compose-with-grafana
+# TODO: get more recent version than 0.9.5 with prometheus fix
   rest-server:
     image: restic/rest-server
     container_name: rest-server
