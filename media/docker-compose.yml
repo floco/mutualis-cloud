@@ -181,6 +181,7 @@ services:
     environment:
       - TZ=Europe/Paris
       - WORKGROUP=WORKGROUP
+    network_mode: "host"
     ports:
       - "139:139"
       - "445:445"
