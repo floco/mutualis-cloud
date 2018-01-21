@@ -179,8 +179,8 @@ services:
       - ${SAMBA_SHARE1}:/srv/share1
       - ${SAMBA_SHARE2}:/srv/share2
     environment:
-      TZ=Europe/Paris
-      WORKGROUP=WORKGROUP
+      - TZ=Europe/Paris
+      - WORKGROUP=WORKGROUP
     ports:
       - "139:139"
       - "445:445"
