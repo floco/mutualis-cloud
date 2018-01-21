@@ -42,25 +42,10 @@ services:
     container_name: pyload
     image: writl/pyload:0.4.9
     volumes:
-      - /tmp:/opt/pyload/Downloads
+      - ${PYLOAD_DIR}:/opt/pyload/Downloads
       - ${VOLUMES_ROOT}/pyload:/opt/pyload/pyload-config
     ports:
       - 8003:8000
-    restart: always
-
-  smb:
-    container_name: smb
-    image: jenserat/samba-publicshare:latest
-    volumes:
-      - /tmp:/srv
-    ports:
-      - 137:137
-      - 138:139
-      - 139:139
-      - 445:445
-    environment:
-      - workgroup=WORKGROUP
-    tty: true
     restart: always
 
   openvpn:
@@ -185,6 +170,23 @@ services:
       - BEANCOUNT_INPUT_FILE=/root/main.beancount
     ports:
       - "8004:5000"
+    restart: always
+
+  samba:
+    image: dperson/samba
+    container_name: samba
+    volumes:
+      - ${SAMBA_SHARE1}:/srv/share1
+      - ${SAMBA_SHARE2}:/srv/share2
+    environment:
+      TZ=Europe/Paris
+      WORKGROUP=WORKGROUP
+    ports:
+      - "139:139"
+      - "445:445"
+      - "137:137/udp"
+      - "138:138/udp"
+    command: -u "${SAMBA_USER};${SAMBA_PASSWORD}" -s "Share1;/srv/share1;yes;no;no;${SAMBA_USER};${SAMBA_USER}" -s "Share2;/srv/share2;yes;no;no;${SAMBA_USER};${SAMBA_USER}" -n -p
     restart: always
 
 # To uncomment if you want to manage upgrade of docker images automatically
