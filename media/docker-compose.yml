@@ -4,6 +4,7 @@
 version: '2'
 services:
 
+# PORTAINER: Container Management
   portainer:
     container_name: portainer
     image: portainer/portainer
@@ -14,6 +15,7 @@ services:
       - 9000:9000
     restart: always
 
+# ORGANIZR: Front page for all services
   organizr:
     container_name: organizr
     image: lsiocommunity/organizr
@@ -26,6 +28,8 @@ services:
       - 80:80
     restart: always
 
+# KEEWEB: browse keepass archive
+# (to replace by bitwarden light API)
   keeweb:
     container_name: keeweb
     image: antelle/keeweb
@@ -35,6 +39,7 @@ services:
       - 8002:443
     restart: always
 
+# PYLOAD: download management
   pyload:
     container_name: pyload
     image: writl/pyload:0.4.9
@@ -45,6 +50,7 @@ services:
       - 8003:8000
     restart: always
 
+# DUCKDNS: to update DNS with dynamic public IP
   duckdns:
     container_name: duckdns
     image: linuxserver/duckdns:latest
@@ -55,6 +61,7 @@ services:
       - PGID=${PGID}
     restart: always
 
+# DNSMASQ: DHCP and DNS
   dnsmasq:
     container_name: dnsmasq
     image: andyshinn/dnsmasq:latest
@@ -70,6 +77,7 @@ services:
     command: "--domain=${DOCKER_DNS_DOMAIN} --dhcp-range=${DOCKER_DHCP_RANGE},24h --addn-hosts=/tmp/dns-hosts --dhcp-hostsfile=/tmp/dhcp-hosts --dhcp-optsfile=/tmp/dhcp-options --log-facility=-"
     restart: always
 
+# CUPS: Printing service
   cups:
     container_name: cups
     image: mnbf9rca/cups-google-print
@@ -87,6 +95,7 @@ services:
     privileged: true
     restart: always
 
+# GLANCES: monitoring
   glances:
     image: docker.io/nicolargo/glances
     container_name: glances
@@ -99,10 +108,10 @@ services:
     pid: "host"
     restart: always
 
-# CREATE REPO: docker-compose exec restic restic init
-# LIST SNAPSHOTS: docker-compose exec restic restic snapshots
-# MANUAL BACKUP: docker-compose exec restic restic backup /data
-
+# RESTIC: backup mangement
+# Create Repo: docker-compose exec restic restic init
+# List Snapshots: docker-compose exec restic restic snapshots
+# Manual Backup: docker-compose exec restic restic backup /data
   restic:
     restart: always
     image: jsmitsnl/docker-restic:latest
@@ -110,7 +119,7 @@ services:
     domainname: mutualis.com
     container_name: restic
     volumes:
-      - ${VOLUMES_ROOT}/restic:/data
+      - ${RESTIC_BACKUP_DIR}:/data
     environment:
       - CRON_BACKUP_EXPRESSION="15   3  *   *   *"
       - CRON_CLEANUP_EXPRESSION="0   0  *   *   *"
@@ -122,7 +131,8 @@ services:
       - RESTIC_REPOSITORY=${RESTIC_REPOSITORY}
       - RESTIC_PASSWORD=${RESTIC_PASSWORD}
 
-# docker-compose exec zerotier /zerotier-cli join ${ZEROTIER_NETWORK}
+# ZEROTIER: Virtual Network (to access remotely)
+# To join a network: docker-compose exec zerotier /zerotier-cli join ${ZEROTIER_NETWORK}
   zerotier:
     image: zerotier/zerotier-containerized
     container_name: zerotier
@@ -136,6 +146,7 @@ services:
       - /dev/net/tun:/dev/net/tun
     restart: always
 
+# GOGS: Source code management
   gogs:
     image: gogs/gogs
     container_name: gogs
@@ -146,6 +157,7 @@ services:
       - "8005:3000"
     restart: always
 
+# FAVA: Finance management
   fava:
     image: yegle/fava
     container_name: fava
@@ -157,6 +169,7 @@ services:
       - "8004:5000"
     restart: always
 
+# SAMBA: File Share
   samba:
     image: dperson/samba
     container_name: samba
