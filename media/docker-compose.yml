@@ -1,8 +1,5 @@
-# Services to include:
-# - omv
-# - plex or equivalent
-# - lms
-# - hass.io
+# Services yet to include:
+# - plex or emby
 
 version: '2'
 services:
@@ -46,18 +43,6 @@ services:
       - ${VOLUMES_ROOT}/pyload:/opt/pyload/pyload-config
     ports:
       - 8003:8000
-    restart: always
-
-  openvpn:
-    container_name: openvpn
-    image: kylemanna/openvpn:latest
-    volumes:
-      - ${VOLUMES_ROOT}/openvpn:/etc/openvpn
-    ports:
-      - 1194:1194/udp
-    cap_add:
-      - NET_ADMIN
-    privileged: true
     restart: always
 
   duckdns:
