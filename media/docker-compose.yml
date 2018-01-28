@@ -108,10 +108,11 @@ services:
     pid: "host"
     restart: always
 
-# RESTIC: backup mangement
+# RESTIC: backup management
 # Create Repo: docker-compose exec restic restic init
-# List Snapshots: docker-compose exec restic restic snapshots
 # Manual Backup: docker-compose exec restic restic backup /data
+# List Snapshots: docker-compose exec restic restic snapshots
+# List Files in a Snapshot: docker-compose exec restic restic ls <snapshot_id>
 # Restore Backup: docker-compose exec restic restic restore latest --target /data/restore
   restic:
     restart: always
@@ -122,15 +123,15 @@ services:
     volumes:
       - ${RESTIC_BACKUP_DIR}:/data
     environment:
-      - CRON_BACKUP_EXPRESSION="15   3  *   *   *"
-      - CRON_CLEANUP_EXPRESSION="0   0  *   *   *"
-      - RESTIC_CLEANUP_KEEP_WEEKLY=5
-      - RESTIC_CLEANUP_KEEP_MONTHLY=12
-      - RESTIC_CLEANUP_KEEP_YEARLY=75
-      - RESTIC_CLEANUP_OPTIONS="--prune"
-      - RESTIC_BACKUP_OPTIONS="--exclude=/data/dir/*"
-      - RESTIC_REPOSITORY=${RESTIC_REPOSITORY}
-      - RESTIC_PASSWORD=${RESTIC_PASSWORD}
+      - "CRON_BACKUP_EXPRESSION=15   3  *   *   *"
+      - "CRON_CLEANUP_EXPRESSION=0   0  *   *   *"
+      - "RESTIC_CLEANUP_KEEP_WEEKLY=5"
+      - "RESTIC_CLEANUP_KEEP_MONTHLY=12"
+      - "RESTIC_CLEANUP_KEEP_YEARLY=75"
+      - "RESTIC_CLEANUP_OPTIONS=--prune"
+      - "RESTIC_BACKUP_OPTIONS=--exclude=/data/dir/*"
+      - "RESTIC_REPOSITORY=${RESTIC_REPOSITORY}"
+      - "RESTIC_PASSWORD=${RESTIC_PASSWORD}"
 
 # ZEROTIER: Virtual Network (to access remotely)
 # To join a network: docker-compose exec zerotier /zerotier-cli join ${ZEROTIER_NETWORK}
