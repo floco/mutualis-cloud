@@ -112,6 +112,7 @@ services:
 # Create Repo: docker-compose exec restic restic init
 # List Snapshots: docker-compose exec restic restic snapshots
 # Manual Backup: docker-compose exec restic restic backup /data
+# Restore Backup: docker-compose exec restic restic restore latest --target /data/restore
   restic:
     restart: always
     image: jsmitsnl/docker-restic:latest
