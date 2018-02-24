@@ -126,7 +126,7 @@ services:
       - "RESTIC_CLEANUP_KEEP_MONTHLY=12"
       - "RESTIC_CLEANUP_KEEP_YEARLY=75"
       - "RESTIC_CLEANUP_OPTIONS=--prune"
-      - "RESTIC_BACKUP_OPTIONS=--exclude=/data/dir/*"
+      - "RESTIC_BACKUP_OPTIONS=--exclude=.AppleDouble --exclude=.DS_Store"
       - "RESTIC_REPOSITORY=${RESTIC_REPOSITORY}"
       - "RESTIC_PASSWORD=${RESTIC_PASSWORD}"
 
