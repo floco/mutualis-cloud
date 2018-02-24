@@ -28,6 +28,21 @@ services:
       - 80:80
     restart: always
 
+# HEIMDALL: Front page for all services
+  heimdall:
+    container_name: heimdall
+    image: linuxserver/heimdall
+    environment:
+      - PUID=${PUID}
+      - PGID=${PGID}
+      - TZ=Europe/Paris
+    volumes:
+      - ${VOLUMES_ROOT}/heimdall:/config
+    ports:
+      - 8000:80
+      - 8001:443
+    restart: always
+
 # KEEWEB: browse keepass archive
 # (to replace by bitwarden light API)
   keeweb:
@@ -75,24 +90,6 @@ services:
       - NET_ADMIN
     network_mode: "host"
     command: "--domain=${DOCKER_DNS_DOMAIN} --dhcp-range=${DOCKER_DHCP_RANGE},24h --addn-hosts=/tmp/dns-hosts --dhcp-hostsfile=/tmp/dhcp-hosts --dhcp-optsfile=/tmp/dhcp-options --log-facility=-"
-    restart: always
-
-# CUPS: Printing service
-  cups:
-    container_name: cups
-    image: mnbf9rca/cups-google-print
-    environment:
-      - CUPS_USER_ADMIN=${CUPS_USER_ADMIN}
-      - CUPS_USER_PASSWORD=${CUPS_USER_PASSWORD}
-      - TZ=Europe/Paris
-      - TCP_PORT_631=631
-    volumes:
-      - ${VOLUMES_ROOT}/cups:/config
-      - /dev:/dev
-      - /etc/avahi/services:/avahi
-      - /var/run/dbus:/var/run/dbus
-    network_mode: "host"
-    privileged: true
     restart: always
 
 # GLANCES: monitoring
