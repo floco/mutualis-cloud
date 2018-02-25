@@ -1,0 +1,28 @@
+# Services to include:
+
+version: '2'
+services:
+
+  portainer:
+    image: portainer/portainer
+    container_name: portainer
+    volumes:
+      - /var/run/docker.sock:/var/run/docker.sock
+      - ${VOLUMES_ROOT}/portainer:/data
+    ports:
+      - "9000:9000"
+    restart: always
+
+# docker-compose exec rest-server create_user backup
+# TODO: add https://github.com/restic/rest-server/tree/master/examples/compose-with-grafana
+# TODO: get more recent version than 0.9.5 with prometheus fix
+  rest-server:
+    image: restic/rest-server
+    container_name: rest-server
+    volumes:
+      - ${VOLUMES_ROOT}/rest-server:/data
+    ports:
+      - "8004:8000"
+    environment:
+      - OPTIONS=
+    restart: always
