@@ -33,6 +33,9 @@ services:
     volumes:
       - ./prometheus/data:/prometheus
       - ./prometheus/config/prometheus.yml:/etc/prometheus/prometheus.yml:ro
+    environment:
+      - PUID=${PUID}
+      - PGID=${PGID}
     depends_on:
       - rest-server
 
