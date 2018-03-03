@@ -22,7 +22,7 @@ services:
     ports:
       - "8000:8000"
     environment:
-      - options: "--prometheus"
+      - "OPTIONS=--prometheus"
     restart: always
 
   prometheus:
