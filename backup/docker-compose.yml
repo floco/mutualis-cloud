@@ -1,6 +1,6 @@
 # Services to include:
 
-version: '2'
+version: '3'
 services:
 
   portainer:
@@ -14,15 +14,39 @@ services:
     restart: always
 
 # docker-compose exec rest-server create_user backup
-# TODO: add https://github.com/restic/rest-server/tree/master/examples/compose-with-grafana
-# TODO: get more recent version than 0.9.5 with prometheus fix
   rest-server:
     image: restic/rest-server
     container_name: rest-server
     volumes:
       - ${VOLUMES_ROOT}/rest-server:/data
     ports:
-      - "8004:8000"
+      - "8000:8000"
     environment:
-      - OPTIONS=
+      - options: "--prometheus"
     restart: always
+
+  prometheus:
+    image: prom/prometheus
+    container_name: prometheus
+    ports:
+      - "8001:9090"
+    volumes:
+      - ${VOLUMES_ROOT}/prometheus/data:/prometheus
+      - ${VOLUMES_ROOT}/prometheus/config/prometheus.yml:/etc/prometheus/prometheus.yml:ro
+    depends_on:
+      - restserver
+
+  grafana:
+    image: grafana/grafana
+    container_name: grafana
+    volumes:
+      - ${VOLUMES_ROOT}/grafana/data:/var/lib/grafana
+      - ${VOLUMES_ROOT}/grafana/dashboards:/dashboards
+      - ${VOLUMES_ROOT}/grafana/config/grafana.ini:/etc/grafana/grafana.ini
+    ports:
+      - "8002:3000"
+    environment:
+      GF_USERS_DEFAULT_THEME: light
+    #  GF_INSTALL_PLUGINS: grafana-clock-panel,grafana-simple-json-datasource
+    depends_on:
+      - prometheus
