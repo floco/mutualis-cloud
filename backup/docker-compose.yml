@@ -8,7 +8,7 @@ services:
     container_name: portainer
     volumes:
       - /var/run/docker.sock:/var/run/docker.sock
-      - ${VOLUMES_ROOT}/portainer:/data
+      - ./portainer:/data
     ports:
       - "9000:9000"
     restart: always
@@ -18,7 +18,7 @@ services:
     image: restic/rest-server
     container_name: rest-server
     volumes:
-      - ${VOLUMES_ROOT}/rest-server:/data
+      - ./rest-server:/data
     ports:
       - "8000:8000"
     environment:
@@ -31,8 +31,8 @@ services:
     ports:
       - "8001:9090"
     volumes:
-      - ${VOLUMES_ROOT}/prometheus/data:/prometheus
-      - ${VOLUMES_ROOT}/prometheus/config/prometheus.yml:/etc/prometheus/prometheus.yml:ro
+      - ./prometheus/data:/prometheus
+      - ./prometheus/config/prometheus.yml:/etc/prometheus/prometheus.yml:ro
     depends_on:
       - rest-server
 
@@ -40,9 +40,9 @@ services:
     image: grafana/grafana
     container_name: grafana
     volumes:
-      - ${VOLUMES_ROOT}/grafana/data:/var/lib/grafana
-      - ${VOLUMES_ROOT}/grafana/dashboards:/dashboards
-      - ${VOLUMES_ROOT}/grafana/config/grafana.ini:/etc/grafana/grafana.ini
+      - ./grafana/data:/var/lib/grafana
+      - ./grafana/dashboards:/dashboards
+      - ./grafana/config/grafana.ini:/etc/grafana/grafana.ini
     ports:
       - "8002:3000"
     environment:
