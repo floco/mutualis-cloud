@@ -34,7 +34,7 @@ services:
       - ${VOLUMES_ROOT}/prometheus/data:/prometheus
       - ${VOLUMES_ROOT}/prometheus/config/prometheus.yml:/etc/prometheus/prometheus.yml:ro
     depends_on:
-      - restserver
+      - rest-server
 
   grafana:
     image: grafana/grafana
