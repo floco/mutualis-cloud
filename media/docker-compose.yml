@@ -192,7 +192,7 @@ services:
     image: cpuguy83/nfs-server 
     container_name: nfs
     volumes:
-      - ${SAMBA_SHARE1}
+      - ${SAMBA_SHARE1}:/srv/share1
     privileged: true
     restart: always
 
