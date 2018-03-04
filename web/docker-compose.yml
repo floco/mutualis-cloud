@@ -27,15 +27,6 @@ services:
       - WORDPRESS_DB_PASSWORD=aqwzsxedc
     networks:
       - back
-  phpmyadmin:
-    volumes:
-      - /:/rootfs:ro
-      - /var/run:/var/run:rw
-      - /sys:/sys:ro
-      - /var/lib/docker/:/var/lib/docker:ro
-    networks:
-      - front
-      - back
 volumes:
   wordpress-data:
     driver: local
