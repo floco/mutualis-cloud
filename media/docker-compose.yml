@@ -192,10 +192,13 @@ services:
     image: itsthenetwork/nfs-server-alpine:latest
     container_name: nfs
     volumes:
-      - ${SAMBA_SHARE1}:/share1
+      - ${SAMBA_SHARE1}:/nfs_share1
     environment:
-      - SHARED_DIRECTORY=/share1
+      - SHARED_DIRECTORY=/nfs_share1
+    network_mode: "host"
     privileged: true
+    ports:
+      - "2049:2049"
     restart: always
 
 # To uncomment if you want to manage upgrade of docker images automatically
