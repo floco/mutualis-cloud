@@ -189,13 +189,10 @@ services:
 
 # NFS: File Share
   nfs:
-    image: itsthenetwork/nfs-server-alpine:latest
+    image: cpuguy83/nfs-server 
     container_name: nfs
     volumes:
-      - ${SAMBA_SHARE1}:/nfs_share1
-    environment:
-      - SHARED_DIRECTORY=/nfs_share1
-    network_mode: "host"
+      - ${SAMBA_SHARE1}
     privileged: true
     restart: always
 
