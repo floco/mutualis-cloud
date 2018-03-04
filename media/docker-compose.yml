@@ -189,15 +189,16 @@ services:
 
 # NFS: File Share
   nfs:
-    image: cpuguy83/nfs-server 
+    image: macadmins/unfs3
     container_name: nfs
     volumes:
       - ${SAMBA_SHARE1}:/nfs_share1
-    command:
-      - /nfs_share1
+      - ./nfs/exports:/etc/exports
     privileged: true
     restart: always
 
+
+  
 # To uncomment if you want to manage upgrade of docker images automatically
 # Until docker-compose issue #1896 becomes available
 #  watchtower:
