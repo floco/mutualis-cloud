@@ -197,8 +197,6 @@ services:
       - SHARED_DIRECTORY=/nfs_share1
     network_mode: "host"
     privileged: true
-    ports:
-      - "2049:2049"
     restart: always
 
 # To uncomment if you want to manage upgrade of docker images automatically
