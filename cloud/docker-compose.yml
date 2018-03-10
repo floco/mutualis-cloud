@@ -1,12 +1,8 @@
 # Services to include:
 # - keeweb
 # - c9.io
-# - dns
-# - dhcp
 # - nextcloud, projectsend or pydio
-# - gitlab
 # - ansible silo
-# - lichee or photoshow
 
 
 version: '3'
