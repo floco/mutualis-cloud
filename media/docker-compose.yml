@@ -110,7 +110,7 @@ services:
 # Manual Backup: docker-compose exec restic restic backup /data
 # List Snapshots: docker-compose exec restic restic snapshots
 # List Files in a Snapshot: docker-compose exec restic restic ls <snapshot_id>
-# Restore Backup: docker-compose exec restic restic restore latest --target /data/restore
+# Restore Backup: docker-compose exec restic restic restore latest --target /data/restore --include /work/foo
   restic:
     restart: always
     image: jsmitsnl/docker-restic:latest
