@@ -103,4 +103,14 @@ services:
       MEMCACHED_PORT: 11211
     restart: always
 
-
+# FAVA: Finance management
+  fava:
+    image: yegle/fava
+    container_name: fava
+    volumes:
+      - ${VOLUMES_ROOT}/fava:/root
+    environment:
+      - BEANCOUNT_INPUT_FILE=/root/main.beancount
+    ports:
+      - "8004:5000"
+    restart: always
