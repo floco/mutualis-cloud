@@ -15,19 +15,6 @@ services:
       - 9000:9000
     restart: always
 
-# ORGANIZR: Front page for all services
-  organizr:
-    container_name: organizr
-    image: lsiocommunity/organizr
-    environment:
-      - PUID=${PUID}
-      - PGID=${PGID}
-    volumes:
-      - ${VOLUMES_ROOT}/organizr:/config
-    ports:
-      - 80:80
-    restart: always
-
 # HEIMDALL: Front page for all services
   heimdall:
     container_name: heimdall
@@ -154,6 +141,18 @@ services:
     ports:
       - "9005:22"
       - "8005:3000"
+    restart: always
+
+# GUACAMOLE: remote access
+  guacamole:
+    image: oznu/guacamole
+    container_name: guacamole
+    # environment:
+    #   - "EXTENSIONS=auth-duo"
+    volumes:
+      - ${VOLUMES_ROOT}/guacamole:/config
+    ports:
+      - "9006:8080"
     restart: always
 
 # FAVA: Finance management
