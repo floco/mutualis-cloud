@@ -119,8 +119,8 @@ services:
   guacamole:
     image: oznu/guacamole
     container_name: guacamole
-    environment:
-      - "EXTENSIONS=auth-duo"
+    # environment:
+    #   - "EXTENSIONS=auth-duo"
     volumes:
       - ${VOLUMES_ROOT}/guacamole:/config
     ports:
