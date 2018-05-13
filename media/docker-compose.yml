@@ -133,6 +133,7 @@ services:
     restart: always
 
 # GOGS: Source code management
+# to replace by Gitea ?
   gogs:
     image: gogs/gogs
     container_name: gogs
