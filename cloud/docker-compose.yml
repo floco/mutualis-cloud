@@ -114,3 +114,15 @@ services:
     ports:
       - "8004:5000"
     restart: always
+
+  # GUACAMOLE: remote access
+  guacamole:
+    image: oznu/guacamole
+    container_name: guacamole
+    # environment:
+    #   - "EXTENSIONS=auth-duo"
+    volumes:
+      - ${VOLUMES_ROOT}/guacamole:/config
+    ports:
+      - "9001:8080"
+    restart: always
