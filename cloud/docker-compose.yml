@@ -3,6 +3,7 @@
 # - c9.io
 # - nextcloud, projectsend or pydio
 # - ansible silo
+# - strapi.io
 
 
 version: '3'
