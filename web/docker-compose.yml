@@ -54,7 +54,7 @@ services:
     image: strapi/strapi
     container_name: strapi
     environment:
-      - APP_NAME=app
+      - APP_NAME=strapi-app
       - DATABASE_CLIENT=mongo
       - DATABASE_HOST=db
       - DATABASE_PORT=27017
@@ -66,7 +66,7 @@ services:
       - 8001:1337
     volumes:
       - ${VOLUMES_ROOT}/strapi/app:/usr/src/api/strapi-app
-      - /usr/src/api/strapi-app/node_modules
+      - ${VOLUMES_ROOT}/strapi/node_modules/usr/src/api/node_modules
     depends_on:
       - db
     restart: always
