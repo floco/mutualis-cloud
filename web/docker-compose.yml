@@ -54,7 +54,7 @@ services:
     image: strapi/strapi
     container_name: strapi
     environment:
-      - APP_NAME=strapi-app
+      - APP_NAME=app
       - DATABASE_CLIENT=mongo
       - DATABASE_HOST=db
       - DATABASE_PORT=27017
