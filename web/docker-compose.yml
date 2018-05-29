@@ -50,9 +50,8 @@ services:
     ports:
       - 8000:80
 
-  strapi:
+  api:
     image: strapi/strapi
-    container_name: strapi
     environment:
       - APP_NAME=strapi-app
       - DATABASE_CLIENT=mongo
@@ -65,19 +64,18 @@ services:
     ports:
       - 8001:1337
     volumes:
-      - ${VOLUMES_ROOT}/strapi/app:/usr/src/api/strapi-app
-      - ${VOLUMES_ROOT}/strapi/node_modules/usr/src/api/node_modules
+      - ./strapi-app:/usr/src/api/strapi-app
+      - /usr/src/api/strapi-app/node_modules
     depends_on:
       - db
     restart: always
 
   db:
     image: mongo
-    container_name: mongo
     environment:
       - MONGO_INITDB_DATABASE=strapi
     ports:
       - 27017:27017
     volumes:
-      - ${VOLUMES_ROOT}/strapi/db:/data/db
+      - ./db:/data/db
     restart: always
