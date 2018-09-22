@@ -64,20 +64,20 @@ services:
     restart: always
 
 # DNSMASQ: DHCP and DNS
-  dnsmasq:
-    container_name: dnsmasq
-    image: andyshinn/dnsmasq:latest
-    ports:
-      - "53:53/tcp"
-      - "53:53/udp"
-      - "67:67/udp"
-    volumes:
-      - ${VOLUMES_ROOT}/dnsmasq:/tmp
-    cap_add:
-      - NET_ADMIN
-    network_mode: "host"
-    command: "--domain=${DOCKER_DNS_DOMAIN} --dhcp-range=${DOCKER_DHCP_RANGE},24h --addn-hosts=/tmp/dns-hosts --dhcp-hostsfile=/tmp/dhcp-hosts --dhcp-optsfile=/tmp/dhcp-options --log-facility=-"
-    restart: always
+  # dnsmasq:
+  #   container_name: dnsmasq
+  #   image: andyshinn/dnsmasq:latest
+  #   ports:
+  #     - "53:53/tcp"
+  #     - "53:53/udp"
+  #     - "67:67/udp"
+  #   volumes:
+  #     - ${VOLUMES_ROOT}/dnsmasq:/tmp
+  #   cap_add:
+  #     - NET_ADMIN
+  #   network_mode: "host"
+  #   command: "--domain=${DOCKER_DNS_DOMAIN} --dhcp-range=${DOCKER_DHCP_RANGE},24h --addn-hosts=/tmp/dns-hosts --dhcp-hostsfile=/tmp/dhcp-hosts --dhcp-optsfile=/tmp/dhcp-options --log-facility=-"
+  #   restart: always
 
 # GLANCES: monitoring
   glances:
