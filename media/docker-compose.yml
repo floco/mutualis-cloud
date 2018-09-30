@@ -52,16 +52,16 @@ services:
       - 8003:8000
     restart: always
 
-# DUCKDNS: to update DNS with dynamic public IP
-  duckdns:
-    container_name: duckdns
-    image: linuxserver/duckdns:latest
-    environment:
-      - SUBDOMAINS=${DUCKDNS_SUBDOMAINS}
-      - TOKEN=${DUCKDNS_TOKEN}
-      - PUID=${PUID}
-      - PGID=${PGID}
-    restart: always
+# # DUCKDNS: to update DNS with dynamic public IP
+#   duckdns:
+#     container_name: duckdns
+#     image: linuxserver/duckdns:latest
+#     environment:
+#       - SUBDOMAINS=${DUCKDNS_SUBDOMAINS}
+#       - TOKEN=${DUCKDNS_TOKEN}
+#       - PUID=${PUID}
+#       - PGID=${PGID}
+#     restart: always
 
 # DNSMASQ: DHCP and DNS
   # dnsmasq:
