@@ -32,14 +32,14 @@ services:
 
 # KEEWEB: browse keepass archive
 # (to replace by bitwarden light API)
-  keeweb:
-    container_name: keeweb
-    image: antelle/keeweb
-    volumes:
-      - ${VOLUMES_ROOT}/keeweb:/etc/nginx/external/
-    ports:
-      - 8002:443
-    restart: always
+  # keeweb:
+  #   container_name: keeweb
+  #   image: antelle/keeweb
+  #   volumes:
+  #     - ${VOLUMES_ROOT}/keeweb:/etc/nginx/external/
+  #   ports:
+  #     - 8002:443
+  #   restart: always
 
 # PYLOAD: download management
   pyload:
@@ -119,18 +119,18 @@ services:
 
 # ZEROTIER: Virtual Network (to access remotely)
 # To join a network: docker-compose exec zerotier /zerotier-cli join ${ZEROTIER_NETWORK}
-  zerotier:
-    image: zerotier/zerotier-containerized
-    container_name: zerotier
-    volumes:
-      - ${VOLUMES_ROOT}/zerotier:/var/lib/zerotier-one
-    cap_add:
-      - NET_ADMIN
-      - SYS_ADMIN
-    network_mode: "host"
-    devices:
-      - /dev/net/tun:/dev/net/tun
-    restart: always
+  # zerotier:
+  #   image: zerotier/zerotier-containerized
+  #   container_name: zerotier
+  #   volumes:
+  #     - ${VOLUMES_ROOT}/zerotier:/var/lib/zerotier-one
+  #   cap_add:
+  #     - NET_ADMIN
+  #     - SYS_ADMIN
+  #   network_mode: "host"
+  #   devices:
+  #     - /dev/net/tun:/dev/net/tun
+  #   restart: always
 
 # GOGS: Source code management
 # to replace by Gitea ?
