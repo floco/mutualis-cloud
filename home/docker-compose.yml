@@ -12,6 +12,16 @@ services:
       - "9000:9000"
     restart: always
 
+  googleassistant:
+    container_name: googleassistant
+    image: andbobsyouruncle/amd64-google-assistant-webserver:0.0.4
+    restart: unless-stopped
+    ports:
+      - 5000:5000
+      - 9324:9324
+    volumes:
+      - ${VOLUMES_ROOT}/googleassistant:/data
+      - /etc/localtime:/etc/localtime:ro
 
 
 
