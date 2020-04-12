@@ -163,7 +163,7 @@ services:
     volumes:
       - ${VOLUMES_ROOT}/fava:/root
     environment:
-      - BEANCOUNT_INPUT_FILE=/root/main.beancount
+      - BEANCOUNT_FILE=/root/main.beancount
     ports:
       - "8004:5000"
     restart: always
