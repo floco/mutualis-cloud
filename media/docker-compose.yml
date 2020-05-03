@@ -158,7 +158,7 @@ services:
 
 # FAVA: Finance management
   fava:
-    image: yegle/fava
+    image: grostim/fava-docker
     container_name: fava
     volumes:
       - ${VOLUMES_ROOT}/fava:/root
