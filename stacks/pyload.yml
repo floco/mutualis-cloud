@@ -1,0 +1,13 @@
+version: "2"
+services:
+    pyload:
+      image: writl/pyload:latest
+      container_name: pyload
+      ports:
+        - 8001:8000
+      environment:
+        - UID=1000
+        - GID=1000
+      volumes:
+        - ${PYLOAD_DIR}:/opt/pyload/Downloads
+        - ${VOLUMES_ROOT}/pyload:/opt/pyload/pyload-config
