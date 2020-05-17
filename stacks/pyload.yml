@@ -9,5 +9,5 @@ services:
         - UID=1000
         - GID=1000
       volumes:
-        - ${PYLOAD_DIR}:/opt/pyload/Downloads
-        - ${VOLUMES_ROOT}/pyload:/opt/pyload/pyload-config
+        - ${DOWNLOAD}:/opt/pyload/Downloads
+        - ${CONFIG}/pyload:/opt/pyload/pyload-config
