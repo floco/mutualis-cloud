@@ -1,34 +1,72 @@
-# Services yet to include:
-# - plex or emby
-
 version: '2'
 services:
 
-# PORTAINER: Container Management
-  portainer:
-    container_name: portainer
-    image: portainer/portainer
-    volumes:
-      - /var/run/docker.sock:/var/run/docker.sock
-      - ${VOLUMES_ROOT}/portainer:/data
+# DASHMACHINE: portal
+  dashmachine:
+    image: rmountjoy/dashmachine:latest
+    container_name: dashmachine
     ports:
-      - 9000:9000
+      - 8888:5000
+    environment:
+      - UID=1000
+      - GID=1000
+    volumes:
+      - ${VOLUMES_ROOT}/dashmachine:/dashmachine/dashmachine/user_data
     restart: always
 
-# HEIMDALL: Front page for all services
-  heimdall:
-    container_name: heimdall
-    image: linuxserver/heimdall
-    environment:
-      - PUID=${PUID}
-      - PGID=${PGID}
-      - TZ=Europe/Paris
-    volumes:
-      - ${VOLUMES_ROOT}/heimdall:/config
+# PYLOAD: download management
+  pyload:
+    image: writl/pyload:latest
+    container_name: pyload
     ports:
-      - 8000:80
-      - 8001:443
+      - 8001:8000
+    environment:
+      - UID=1000
+      - GID=1000
+    volumes:
+      - ${DOWNLOAD}:/opt/pyload/Downloads
+      - ${VOLUMES_ROOT}/pyload:/opt/pyload/pyload-config
     restart: always
+
+# FAVA: Finance management
+  fava:
+    image: grostim/fava-docker
+    container_name: fava
+    ports:
+      - 8002:5000
+    environment:
+      - UID=1000
+      - GID=1000
+      - BEANCOUNT_FILE=/root/main.beancount
+    volumes:
+      - ${VOLUMES_ROOT}/fava:/root
+    restart: always
+
+# PORTAINER: Container Management
+  # portainer:
+  #   container_name: portainer
+  #   image: portainer/portainer
+  #   volumes:
+  #     - /var/run/docker.sock:/var/run/docker.sock
+  #     - ${VOLUMES_ROOT}/portainer:/data
+  #   ports:
+  #     - 9000:9000
+  #   restart: always
+
+# HEIMDALL: Front page for all services
+  # heimdall:
+  #   container_name: heimdall
+  #   image: linuxserver/heimdall
+  #   environment:
+  #     - PUID=${PUID}
+  #     - PGID=${PGID}
+  #     - TZ=Europe/Paris
+  #   volumes:
+  #     - ${VOLUMES_ROOT}/heimdall:/config
+  #   ports:
+  #     - 8000:80
+  #     - 8001:443
+  #   restart: always
 
 # KEEWEB: browse keepass archive
 # (to replace by bitwarden light API)
@@ -40,17 +78,6 @@ services:
   #   ports:
   #     - 8002:443
   #   restart: always
-
-# PYLOAD: download management
-  pyload:
-    container_name: pyload
-    image: writl/pyload:0.4.9
-    volumes:
-      - ${PYLOAD_DIR}:/opt/pyload/Downloads
-      - ${VOLUMES_ROOT}/pyload:/opt/pyload/pyload-config
-    ports:
-      - 8003:8000
-    restart: always
 
 # # DUCKDNS: to update DNS with dynamic public IP
 #   duckdns:
@@ -80,17 +107,17 @@ services:
   #   restart: always
 
 # GLANCES: monitoring
-  glances:
-    image: docker.io/nicolargo/glances
-    container_name: glances
-    ports:
-      - "9001-9002:61208-61209"
-    volumes:
-      - /var/run/docker.sock:/var/run/docker.sock:ro
-    environment:
-      - GLANCES_OPT=-w
-    pid: "host"
-    restart: always
+  # glances:
+  #   image: docker.io/nicolargo/glances
+  #   container_name: glances
+  #   ports:
+  #     - "9001-9002:61208-61209"
+  #   volumes:
+  #     - /var/run/docker.sock:/var/run/docker.sock:ro
+  #   environment:
+  #     - GLANCES_OPT=-w
+  #   pid: "host"
+  #   restart: always
 
 # RESTIC: backup management
 # Create Repo: docker-compose exec restic restic init
@@ -98,24 +125,24 @@ services:
 # List Snapshots: docker-compose exec restic restic snapshots
 # List Files in a Snapshot: docker-compose exec restic restic ls <snapshot_id>
 # Restore Backup: docker-compose exec restic restic restore latest --target /data/restore --include /work/foo
-  restic:
-    restart: always
-    image: jsmitsnl/docker-restic:latest
-    hostname: backup
-    domainname: mutualis.com
-    container_name: restic
-    volumes:
-      - ${RESTIC_BACKUP_DIR}:/data
-    environment:
-      - "CRON_BACKUP_EXPRESSION=${RESTIC_CRON_BACKUP_EXPRESSION}"
-      - "CRON_CLEANUP_EXPRESSION=${RESTIC_CRON_CLEANUP_EXPRESSION}"
-      - "RESTIC_CLEANUP_KEEP_WEEKLY=5"
-      - "RESTIC_CLEANUP_KEEP_MONTHLY=12"
-      - "RESTIC_CLEANUP_KEEP_YEARLY=75"
-      - "RESTIC_CLEANUP_OPTIONS="
-      - "RESTIC_BACKUP_OPTIONS=${RESTIC_BACKUP_OPTIONS}"
-      - "RESTIC_REPOSITORY=${RESTIC_REPOSITORY}"
-      - "RESTIC_PASSWORD=${RESTIC_PASSWORD}"
+  # restic:
+  #   restart: always
+  #   image: jsmitsnl/docker-restic:latest
+  #   hostname: backup
+  #   domainname: mutualis.com
+  #   container_name: restic
+  #   volumes:
+  #     - ${RESTIC_BACKUP_DIR}:/data
+  #   environment:
+  #     - "CRON_BACKUP_EXPRESSION=${RESTIC_CRON_BACKUP_EXPRESSION}"
+  #     - "CRON_CLEANUP_EXPRESSION=${RESTIC_CRON_CLEANUP_EXPRESSION}"
+  #     - "RESTIC_CLEANUP_KEEP_WEEKLY=5"
+  #     - "RESTIC_CLEANUP_KEEP_MONTHLY=12"
+  #     - "RESTIC_CLEANUP_KEEP_YEARLY=75"
+  #     - "RESTIC_CLEANUP_OPTIONS="
+  #     - "RESTIC_BACKUP_OPTIONS=${RESTIC_BACKUP_OPTIONS}"
+  #     - "RESTIC_REPOSITORY=${RESTIC_REPOSITORY}"
+  #     - "RESTIC_PASSWORD=${RESTIC_PASSWORD}"
 
 # ZEROTIER: Virtual Network (to access remotely)
 # To join a network: docker-compose exec zerotier /zerotier-cli join ${ZEROTIER_NETWORK}
@@ -134,73 +161,61 @@ services:
 
 # GOGS: Source code management
 # to replace by Gitea ?
-  gogs:
-    image: gogs/gogs
-    container_name: gogs
-    volumes:
-      - ${VOLUMES_ROOT}/gogs:/data
-    ports:
-      - "9005:22"
-      - "8005:3000"
-    restart: always
+  # gogs:
+  #   image: gogs/gogs
+  #   container_name: gogs
+  #   volumes:
+  #     - ${VOLUMES_ROOT}/gogs:/data
+  #   ports:
+  #     - "9005:22"
+  #     - "8005:3000"
+  #   restart: always
 
 # GUACAMOLE: remote access
-  guacamole:
-    image: oznu/guacamole
-    container_name: guacamole
-    # environment:
-    #   - "EXTENSIONS=auth-duo"
-    volumes:
-      - ${VOLUMES_ROOT}/guacamole:/config
-    ports:
-      - "9006:8080"
-    restart: always
-
-# FAVA: Finance management
-  fava:
-    image: grostim/fava-docker
-    container_name: fava
-    volumes:
-      - ${VOLUMES_ROOT}/fava:/root
-    environment:
-      - BEANCOUNT_FILE=/root/main.beancount
-    ports:
-      - "8004:5000"
-    restart: always
+  # guacamole:
+  #   image: oznu/guacamole
+  #   container_name: guacamole
+  #   # environment:
+  #   #   - "EXTENSIONS=auth-duo"
+  #   volumes:
+  #     - ${VOLUMES_ROOT}/guacamole:/config
+  #   ports:
+  #     - "9006:8080"
+  #   restart: always
 
 # SAMBA: File Share
-  samba:
-    image: dperson/samba
-    container_name: samba
-    volumes:
-      - ${SAMBA_SHARE1}:/srv/share1
-      - ${SAMBA_SHARE2}:/srv/share2
-    environment:
-      - TZ=Europe/Paris
-      - WORKGROUP=WORKGROUP
-    network_mode: "host"
-    ports:
-      - "139:139"
-      - "445:445"
-      - "137:137/udp"
-      - "138:138/udp"
-    command: -u "${SAMBA_USER};${SAMBA_PASSWORD}" -s "Share1;/srv/share1;yes;no;no;${SAMBA_USER};${SAMBA_USER}" -s "Share2;/srv/share2;yes;no;no;${SAMBA_USER};${SAMBA_USER}" -n -p
-    restart: always
+  # samba:
+  #   image: dperson/samba
+  #   container_name: samba
+  #   volumes:
+  #     - ${SAMBA_SHARE1}:/srv/share1
+  #     - ${SAMBA_SHARE2}:/srv/share2
+  #   environment:
+  #     - TZ=Europe/Paris
+  #     - WORKGROUP=WORKGROUP
+  #   network_mode: "host"
+  #   ports:
+  #     - "139:139"
+  #     - "445:445"
+  #     - "137:137/udp"
+  #     - "138:138/udp"
+  #   command: -u "${SAMBA_USER};${SAMBA_PASSWORD}" -s "Share1;/srv/share1;yes;no;no;${SAMBA_USER};${SAMBA_USER}" -s "Share2;/srv/share2;yes;no;no;${SAMBA_USER};${SAMBA_USER}" -n -p
+  #   restart: always
 
 # NFS: File Share
-  nfs:
-    image: macadmins/unfs3
-    container_name: nfs
-    volumes:
-      - ${SAMBA_SHARE1}:/nfs_share1
-      - ./nfs/exports:/etc/exports
-    privileged: true
-    ports:
-      - "111:111/tcp"
-      - "111:111/udp"
-      - "2049:2049/tcp"
-      - "2049:2049/udp"
-    restart: always
+  # nfs:
+  #   image: macadmins/unfs3
+  #   container_name: nfs
+  #   volumes:
+  #     - ${SAMBA_SHARE1}:/nfs_share1
+  #     - ./nfs/exports:/etc/exports
+  #   privileged: true
+  #   ports:
+  #     - "111:111/tcp"
+  #     - "111:111/udp"
+  #     - "2049:2049/tcp"
+  #     - "2049:2049/udp"
+  #   restart: always
   
 # To uncomment if you want to manage upgrade of docker images automatically
 # Until docker-compose issue #1896 becomes available
