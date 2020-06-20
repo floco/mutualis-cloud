@@ -32,90 +32,23 @@ services:
     ports:
       - "9000:9000"
     restart: always
-
-# AWX
-
-  # postgres:
-  #   image: "postgres:9.6"
-  #   environment:
-  #     POSTGRES_USER: awx
-  #     POSTGRES_PASSWORD: KgJKPMg73FwbV7xU7ur726gl
-  #     POSTGRES_DB: awx
-  #   restart: always
-
-  # rabbitmq:
-  #   image: "rabbitmq:3"
-  #   environment:
-  #     RABBITMQ_DEFAULT_VHOST: awx
-  #   restart: always
-
-  # memcached:
-  #   image: "memcached:alpine"
-  #   restart: always
-
-  # awx_web:
-  #   image: "geerlingguy/awx_web:latest"
-  #   links:
-  #     - rabbitmq
-  #     - memcached
-  #     - postgres
-  #   ports:
-  #     - "8003:8052"
-  #   hostname: awxweb
-  #   user: root
-  #   environment:
-  #     SECRET_KEY: Omy8HqvtYcn24tSPqMRF3WGm
-  #     DATABASE_USER: awx
-  #     DATABASE_PASSWORD: KgJKPMg73FwbV7xU7ur726gl
-  #     DATABASE_NAME: awx
-  #     DATABASE_PORT: 5432
-  #     DATABASE_HOST: postgres
-  #     RABBITMQ_USER: guest
-  #     RABBITMQ_PASSWORD: K0ZAoDiOeNzsqKZZybb4XS2Z
-  #     RABBITMQ_HOST: rabbitmq
-  #     RABBITMQ_PORT: 5672
-  #     RABBITMQ_VHOST: awx
-  #     MEMCACHED_HOST: memcached
-  #     MEMCACHED_PORT: 11211
-  #   restart: always
-
-  # awx_task:
-  #   image: "geerlingguy/awx_task:latest"
-  #   links:
-  #     - rabbitmq
-  #     - memcached
-  #     - awx_web
-  #     - postgres
-  #   hostname: awx
-  #   user: root
-  #   environment:
-  #     SECRET_KEY: Omy8HqvtYcn24tSPqMRF3WGm
-  #     DATABASE_USER: awx
-  #     DATABASE_PASSWORD: KgJKPMg73FwbV7xU7ur726gl
-  #     DATABASE_NAME: awx
-  #     DATABASE_PORT: 5432
-  #     DATABASE_HOST: postgres
-  #     RABBITMQ_USER: guest
-  #     RABBITMQ_PASSWORD: K0ZAoDiOeNzsqKZZybb4XS2Z
-  #     RABBITMQ_HOST: rabbitmq
-  #     RABBITMQ_PORT: 5672
-  #     RABBITMQ_VHOST: awx
-  #     MEMCACHED_HOST: memcached
-  #     MEMCACHED_PORT: 11211
-  #   restart: always
-
-# FAVA: Finance management
-  # fava:
-  #   image: yegle/fava
-  #   container_name: fava
-  #   volumes:
-  #     - ${VOLUMES_ROOT}/fava:/root
-  #   environment:
-  #     - BEANCOUNT_INPUT_FILE=/root/main.beancount
-  #   ports:
-  #     - "8004:5000"
-  #   restart: always
-
+    
+  code-server:
+    image: linuxserver/code-server
+    container_name: code-server
+    environment:
+      - PUID=${PUID}
+      - PGID=${PGID}
+      - TZ=Europe/Paris
+      - PASSWORD=${CODE_PASSWORD}
+      - SUDO_PASSWORD=${CODE_SUDO_PASSWORD}
+      - PROXY_DOMAIN=code-server.mutualis.com
+    volumes:
+      - ${VOLUMES_ROOT}/code-server:/config
+    ports:
+      - 8002:8443
+    restart: unless-stopped
+ 
   # GUACAMOLE: remote access
   guacamole:
     image: oznu/guacamole
