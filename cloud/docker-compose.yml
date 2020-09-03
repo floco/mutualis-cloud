@@ -1,5 +1,4 @@
 # Services to include:
-# - keeweb
 # - c9.io
 # - nextcloud, projectsend or pydio
 # - ansible silo
@@ -39,8 +38,6 @@ services:
     environment:
       - PUID=${PUID}
       - PGID=${PGID}
-    networks:
-      - transfer
     ports:
       - "32768:8080"
     volumes:
@@ -130,6 +127,23 @@ services:
   #     - "8004:5000"
   #   restart: always
 
+    
+  code-server:
+    image: linuxserver/code-server
+    container_name: code-server
+    environment:
+      - PUID=${PUID}
+      - PGID=${PGID}
+      - TZ=Europe/Paris
+      - PASSWORD=${CODE_PASSWORD}
+      - SUDO_PASSWORD=${CODE_SUDO_PASSWORD}
+      - PROXY_DOMAIN=code-server.mutualis.com
+    volumes:
+      - ${VOLUMES_ROOT}/code-server:/config
+    ports:
+      - 8002:8443
+    restart: unless-stopped
+ 
   # GUACAMOLE: remote access
   guacamole:
     image: oznu/guacamole
