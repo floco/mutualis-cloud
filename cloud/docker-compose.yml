@@ -32,17 +32,17 @@ services:
       - "9000:9000"
     restart: always
 
-  transfersh:
-    image: dutchcoders/transfer.sh:latest
-    command: --provider local --basedir /uploads/ --web-path /web/
+  psitransfer:
+    image: psitrax/psitransfer
+    container_name: psitransfer
+    ports:
+      - 32768:3000
+    volumes:
+      - ${VOLUMES_ROOT}/psitransfer:/data
     environment:
       - PUID=${PUID}
       - PGID=${PGID}
-    ports:
-      - "32768:8080"
-    volumes:
-      - ${VOLUMES_ROOT}/transfersh/uploads/:/uploads/
-      - ${VOLUMES_ROOT}/transfersh/web/:/web/
+      - PSITRANSFER_ADMIN_PASS=${PSITRANSFER_ADMIN_PASS} 
 
 # AWX
 
