@@ -19,9 +19,52 @@ services:
       retries: 3
     restart: always
 
+# To create bucket/user
+# --------------------
+# mc config host add mycloud [url]
+# mc ls mycloud                    
+# mc mb mycloud/guest
+# vi user.json
+# mc admin policy add mycloud user user.json
+# mc admin policy info mycloud user
+# mc admin user add mycloud guest [password]
+# mc admin policy set mycloud user user=guest
+# mc admin user list mycloud --json
 
-
-
+# user.json
+# {
+#   "Version": "2012-10-17",
+#   "Statement": [
+#     {
+#       "Action": [
+#         "s3:PutBucketPolicy",
+#         "s3:GetBucketPolicy",
+#         "s3:DeleteBucketPolicy",
+#         "s3:ListAllMyBuckets",
+#         "s3:ListBucket"
+#       ],
+#       "Effect": "Allow",
+#       "Resource": [
+#         "arn:aws:s3:::guest"
+#       ],
+#       "Sid": ""
+#     },
+#     {
+#       "Action": [
+#         "s3:AbortMultipartUpload",
+#         "s3:DeleteObject",
+#         "s3:GetObject",
+#         "s3:ListMultipartUploadParts",
+#         "s3:PutObject"
+#       ],
+#       "Effect": "Allow",
+#       "Resource": [
+#         "arn:aws:s3:::guest/*"
+#       ],
+#       "Sid": ""
+#     }
+#   ]
+# }
 
 
 # Services to include:
