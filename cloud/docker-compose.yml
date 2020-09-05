@@ -32,17 +32,15 @@ services:
       - "9000:9000"
     restart: always
 
-  psitransfer:
-    image: psitrax/psitransfer
-    container_name: psitransfer
-    ports:
-      - 32768:3000
-    volumes:
-      - ${VOLUMES_ROOT}/psitransfer:/data
+  filestash:
+    container_name: filestash
+    image: machines/filestash
+    restart: always
     environment:
       - PUID=${PUID}
       - PGID=${PGID}
-      - PSITRANSFER_ADMIN_PASS=${PSITRANSFER_ADMIN_PASS} 
+    ports:
+    - "32768:8334"
 
 # AWX
 
