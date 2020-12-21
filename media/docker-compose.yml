@@ -1,19 +1,6 @@
 version: '2'
 services:
 
-# DASHMACHINE: portal
-  dashmachine:
-    image: rmountjoy/dashmachine:latest
-    container_name: dashmachine
-    ports:
-      - 8888:5000
-    environment:
-      - UID=1000
-      - GID=1000
-    volumes:
-      - ${VOLUMES_ROOT}/dashmachine:/dashmachine/dashmachine/user_data
-    restart: always
-
 # PYLOAD: download management
   pyload:
     image: writl/pyload:latest
@@ -21,12 +8,12 @@ services:
     ports:
       - 8001:8000
     environment:
-      - UID=1000
-      - GID=1000
+      - UID=${PUID}
+      - GID=${PGID}
     volumes:
       - ${DOWNLOAD}:/opt/pyload/Downloads
       - ${VOLUMES_ROOT}/pyload:/opt/pyload/pyload-config
-    restart: always
+    restart: unless-stopped
 
 # FAVA: Finance management
   fava:
@@ -39,19 +26,72 @@ services:
       - GID=1000
       - BEANCOUNT_FILE=/root/main.beancount
     volumes:
-      - ${VOLUMES_ROOT}/fava:/root
-    restart: always
+      - ${FINANCE}:/root
+    restart: unless-stopped
+
+ # ADGUARD: DNS protection
+  adguardhome:
+    image: adguard/adguardhome
+    container_name: adguardhome
+    ports:
+      - 53:53/tcp
+      - 53:53/udp
+      - 67:67/udp
+      - 68:68/tcp
+      - 853:853/tcp
+      - 8003:45158/tcp
+    volumes:
+      - ${VOLUMES_ROOT}/adguard/work:/opt/adguardhome/work
+      - ${VOLUMES_ROOT}/adguard/conf:/opt/adguardhome/conf
+    restart: unless-stopped
 
 # PORTAINER: Container Management
-  # portainer:
-  #   container_name: portainer
-  #   image: portainer/portainer
-  #   volumes:
-  #     - /var/run/docker.sock:/var/run/docker.sock
-  #     - ${VOLUMES_ROOT}/portainer:/data
+  portainer:
+    container_name: portainer
+    image: portainer/portainer
+    volumes:
+      - /var/run/docker.sock:/var/run/docker.sock
+      - ${VOLUMES_ROOT}/portainer:/data
+    ports:
+      - 9000:9000
+    restart: always
+
+
+# DASHMACHINE: portal
+  # dashmachine:
+  #   image: rmountjoy/dashmachine:latest
+  #   container_name: dashmachine
   #   ports:
-  #     - 9000:9000
+  #     - 8888:5000
+  #   environment:
+  #     - UID=${PUID}
+  #     - GID=${PGID}
+  #   volumes:
+  #     - ${VOLUMES_ROOT}/dashmachine:/dashmachine/dashmachine/user_data
   #   restart: always
+
+#  # VISERON: Video AI
+#   viseron:
+#     image: roflcoopter/viseron:latest
+#     container_name: viseron
+#     restart: unless-stopped
+#     volumes:
+#       - ${VOLUMES_ROOT}/viseron/recordings:/recordings
+#       - ${VOLUMES_ROOT}/viseron/config:/config
+#       - /etc/localtime:/etc/localtime:ro
+
+
+
+
+
+# BROADLINK: Learn RF code
+#  broadlinkmanager:
+#    image: techblog/broadlinkmanager
+#    network_mode: host
+#    container_name: broadlinkmanager
+#    restart: unless-stopped
+#    volumes:
+#      - ${VOLUMES_ROOT}/broadlinkmanager:/opt/broadlinkmanager/data  
 
 # HEIMDALL: Front page for all services
   # heimdall:
