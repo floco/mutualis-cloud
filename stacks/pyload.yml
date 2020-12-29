@@ -10,5 +10,5 @@ services:
       - GID=1000
     volumes:
       - ${DOWNLOAD}:/opt/pyload/Downloads
-      - ${VOLUMES_ROOT}/pyload:/opt/pyload/pyload-config
+      - ./pyload:/opt/pyload/pyload-config
     restart: always

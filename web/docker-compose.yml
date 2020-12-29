@@ -46,7 +46,7 @@ services:
     container_name: grav
     restart: always
     volumes:
-      - ${VOLUMES_ROOT}/grav:/usr/html
+      - ./grav:/usr/html
     ports:
       - 8000:80
 

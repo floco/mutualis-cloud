@@ -12,8 +12,8 @@ services:
     image: linuxserver/smokeping
     container_name: smokeping
     volumes:
-      - ${VOLUMES_ROOT}/smokeping/config:/config
-      - ${VOLUMES_ROOT}/smokeping/data:/data
+      - ./smokeping/config:/config
+      - ./smokeping/data:/data
     ports:
       - "8001:80"
     environment:
@@ -33,7 +33,7 @@ services:
       - SUDO_PASSWORD=${CODE_SUDO_PASSWORD}
       - PROXY_DOMAIN=code-server.mutualis.com
     volumes:
-      - ${VOLUMES_ROOT}/code-server:/config
+      - ./code-server:/config
     ports:
       - 8002:8443
     restart: unless-stopped
@@ -45,7 +45,7 @@ services:
     # environment:
     #   - "EXTENSIONS=auth-duo"
     volumes:
-      - ${VOLUMES_ROOT}/guacamole:/config
+      - ./guacamole:/config
     ports:
       - "9001:8080"
     restart: always
@@ -136,7 +136,7 @@ services:
   #   image: yegle/fava
   #   container_name: fava
   #   volumes:
-  #     - ${VOLUMES_ROOT}/fava:/root
+  #     - ./fava:/root
   #   environment:
   #     - BEANCOUNT_INPUT_FILE=/root/main.beancount
   #   ports:

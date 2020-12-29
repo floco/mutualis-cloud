@@ -10,5 +10,5 @@ services:
       - GID=1000
       - BEANCOUNT_FILE=/root/main.beancount
     volumes:
-      - ${VOLUMES_ROOT}/fava:/root
+      - ./fava:/root
     restart: always

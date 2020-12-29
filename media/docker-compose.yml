@@ -12,7 +12,7 @@ services:
       - GID=${PGID}
     volumes:
       - ${DOWNLOAD}:/opt/pyload/Downloads
-      - ${VOLUMES_ROOT}/pyload:/opt/pyload/pyload-config
+      - ./pyload:/opt/pyload/pyload-config
     restart: unless-stopped
 
 # FAVA: Finance management
@@ -41,8 +41,8 @@ services:
       - 853:853/tcp
       - 8003:45158/tcp
     volumes:
-      - ${VOLUMES_ROOT}/adguard/work:/opt/adguardhome/work
-      - ${VOLUMES_ROOT}/adguard/conf:/opt/adguardhome/conf
+      - ./adguard/work:/opt/adguardhome/work
+      - ./adguard/conf:/opt/adguardhome/conf
     restart: unless-stopped
 
 # PORTAINER: Container Management
@@ -51,7 +51,7 @@ services:
     image: portainer/portainer
     volumes:
       - /var/run/docker.sock:/var/run/docker.sock
-      - ${VOLUMES_ROOT}/portainer:/data
+      - ./portainer:/data
     ports:
       - 9000:9000
     restart: always
@@ -67,7 +67,7 @@ services:
   #     - UID=${PUID}
   #     - GID=${PGID}
   #   volumes:
-  #     - ${VOLUMES_ROOT}/dashmachine:/dashmachine/dashmachine/user_data
+  #     - ./dashmachine:/dashmachine/dashmachine/user_data
   #   restart: always
 
 #  # VISERON: Video AI
@@ -76,8 +76,8 @@ services:
 #     container_name: viseron
 #     restart: unless-stopped
 #     volumes:
-#       - ${VOLUMES_ROOT}/viseron/recordings:/recordings
-#       - ${VOLUMES_ROOT}/viseron/config:/config
+#       - ./viseron/recordings:/recordings
+#       - ./viseron/config:/config
 #       - /etc/localtime:/etc/localtime:ro
 
 
@@ -91,7 +91,7 @@ services:
 #    container_name: broadlinkmanager
 #    restart: unless-stopped
 #    volumes:
-#      - ${VOLUMES_ROOT}/broadlinkmanager:/opt/broadlinkmanager/data  
+#      - ./broadlinkmanager:/opt/broadlinkmanager/data  
 
 # HEIMDALL: Front page for all services
   # heimdall:
@@ -102,7 +102,7 @@ services:
   #     - PGID=${PGID}
   #     - TZ=Europe/Paris
   #   volumes:
-  #     - ${VOLUMES_ROOT}/heimdall:/config
+  #     - ./heimdall:/config
   #   ports:
   #     - 8000:80
   #     - 8001:443
@@ -114,7 +114,7 @@ services:
   #   container_name: keeweb
   #   image: antelle/keeweb
   #   volumes:
-  #     - ${VOLUMES_ROOT}/keeweb:/etc/nginx/external/
+  #     - ./keeweb:/etc/nginx/external/
   #   ports:
   #     - 8002:443
   #   restart: always
@@ -139,7 +139,7 @@ services:
   #     - "53:53/udp"
   #     - "67:67/udp"
   #   volumes:
-  #     - ${VOLUMES_ROOT}/dnsmasq:/tmp
+  #     - ./dnsmasq:/tmp
   #   cap_add:
   #     - NET_ADMIN
   #   network_mode: "host"
@@ -190,7 +190,7 @@ services:
   #   image: zerotier/zerotier-containerized
   #   container_name: zerotier
   #   volumes:
-  #     - ${VOLUMES_ROOT}/zerotier:/var/lib/zerotier-one
+  #     - ./zerotier:/var/lib/zerotier-one
   #   cap_add:
   #     - NET_ADMIN
   #     - SYS_ADMIN
@@ -205,7 +205,7 @@ services:
   #   image: gogs/gogs
   #   container_name: gogs
   #   volumes:
-  #     - ${VOLUMES_ROOT}/gogs:/data
+  #     - ./gogs:/data
   #   ports:
   #     - "9005:22"
   #     - "8005:3000"
@@ -218,7 +218,7 @@ services:
   #   # environment:
   #   #   - "EXTENSIONS=auth-duo"
   #   volumes:
-  #     - ${VOLUMES_ROOT}/guacamole:/config
+  #     - ./guacamole:/config
   #   ports:
   #     - "9006:8080"
   #   restart: always
