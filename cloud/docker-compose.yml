@@ -22,25 +22,43 @@ services:
       - TZ=Europe/Paris
     restart: always
 
-  portainer:
-    image: portainer/portainer
-    container_name: portainer
-    volumes:
-      - /var/run/docker.sock:/var/run/docker.sock
-      - ${VOLUMES_ROOT}/portainer:/data
-    ports:
-      - "9000:9000"
-    restart: always
-
-  filestash:
-    container_name: filestash
-    image: machines/filestash
-    restart: always
+  code-server:
+    image: linuxserver/code-server
+    container_name: code-server
     environment:
       - PUID=${PUID}
       - PGID=${PGID}
+      - TZ=Europe/Paris
+      - PASSWORD=${CODE_PASSWORD}
+      - SUDO_PASSWORD=${CODE_SUDO_PASSWORD}
+      - PROXY_DOMAIN=code-server.mutualis.com
+    volumes:
+      - ${VOLUMES_ROOT}/code-server:/config
     ports:
-    - "32768:8334"
+      - 8002:8443
+    restart: unless-stopped
+ 
+  # GUACAMOLE: remote access
+  guacamole:
+    image: oznu/guacamole
+    container_name: guacamole
+    # environment:
+    #   - "EXTENSIONS=auth-duo"
+    volumes:
+      - ${VOLUMES_ROOT}/guacamole:/config
+    ports:
+      - "9001:8080"
+    restart: always
+
+  # filestash:
+  #   container_name: filestash
+  #   image: machines/filestash
+  #   restart: always
+  #   environment:
+  #     - PUID=${PUID}
+  #     - PGID=${PGID}
+  #   ports:
+  #   - "32768:8334"
 
 # AWX
 
@@ -126,30 +144,4 @@ services:
   #   restart: always
 
     
-  code-server:
-    image: linuxserver/code-server
-    container_name: code-server
-    environment:
-      - PUID=${PUID}
-      - PGID=${PGID}
-      - TZ=Europe/Paris
-      - PASSWORD=${CODE_PASSWORD}
-      - SUDO_PASSWORD=${CODE_SUDO_PASSWORD}
-      - PROXY_DOMAIN=code-server.mutualis.com
-    volumes:
-      - ${VOLUMES_ROOT}/code-server:/config
-    ports:
-      - 8002:8443
-    restart: unless-stopped
- 
-  # GUACAMOLE: remote access
-  guacamole:
-    image: oznu/guacamole
-    container_name: guacamole
-    # environment:
-    #   - "EXTENSIONS=auth-duo"
-    volumes:
-      - ${VOLUMES_ROOT}/guacamole:/config
-    ports:
-      - "9001:8080"
-    restart: always
+

@@ -1,5 +1,0 @@
-# ignore docker compose env
-**/.env
-
-# ignore mac files
-**/.DS_Store
