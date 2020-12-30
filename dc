@@ -5,26 +5,26 @@ FILE="${1}.yml"
 
 case "$2" in
   start)
-        docker-compose up -d -f $FILE --env-file /mutualis-data/env
+        docker-compose --file $FILE --env-file /mutualis-data/env up -d
         ;;
   stop)
-        docker-compose stop -f $FILE --env-file /mutualis-data/env
+        docker-compose --file $FILE --env-file /mutualis-data/env stop
         ;;
 
   restart)
-        docker-compose restart -f $FILE --env-file /mutualis-data/env
+        docker-compose --file $FILE --env-file /mutualis-data/env restart
         ;;
 
   status)
-        docker-compose ps -f $FILE --env-file /mutualis-data/env
+        docker-compose --file $FILE --env-file /mutualis-data/env ps -f
         ;;
 
   remove)
-        docker-compose stop -f $FILE --env-file /mutualis-data/env
-        docker-compose rm -f $FILE --env-file /mutualis-data/env
+        docker-compose --file $FILE --env-file /mutualis-data/env stop
+        docker-compose --file $FILE --env-file /mutualis-data/env rm -f
         ;;
   *)
-        echo "Usage: dc {cloud|media|wordpress} {start|stop|restart|status|remove}"
+        echo "Usage: dc {cloud|media|web|backup|gateway|...} {start|stop|restart|status|remove}"
         exit 1
 esac
 
