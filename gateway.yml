@@ -9,8 +9,8 @@ services:
       - '81:81'
       - '443:443'
     volumes:
-      - ./data:/data
-      - ./letsencrypt:/etc/letsencrypt
+      - ${VOLUME_ROOT}/data:/data
+      - ${VOLUME_ROOT}/letsencrypt:/etc/letsencrypt
 
   portainer_agent:
     image: portainer/agent

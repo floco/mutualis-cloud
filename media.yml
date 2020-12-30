@@ -12,7 +12,7 @@ services:
       - GID=${PGID}
     volumes:
       - ${DOWNLOAD}:/opt/pyload/Downloads
-      - ./pyload:/opt/pyload/pyload-config
+      - ${VOLUME_ROOT}/pyload:/opt/pyload/pyload-config
     restart: unless-stopped
 
 # FAVA: Finance management
@@ -41,8 +41,8 @@ services:
       - 853:853/tcp
       - 8003:45158/tcp
     volumes:
-      - ./adguard/work:/opt/adguardhome/work
-      - ./adguard/conf:/opt/adguardhome/conf
+      - ${VOLUME_ROOT}/adguard/work:/opt/adguardhome/work
+      - ${VOLUME_ROOT}/adguard/conf:/opt/adguardhome/conf
     restart: unless-stopped
 
 # PORTAINER: Container Management
@@ -51,7 +51,7 @@ services:
     image: portainer/portainer
     volumes:
       - /var/run/docker.sock:/var/run/docker.sock
-      - ./portainer:/data
+      - ${VOLUME_ROOT}/portainer:/data
     ports:
       - 9000:9000
     restart: always

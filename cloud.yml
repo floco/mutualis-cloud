@@ -12,8 +12,8 @@ services:
     image: linuxserver/smokeping
     container_name: smokeping
     volumes:
-      - ./smokeping/config:/config
-      - ./smokeping/data:/data
+      - ${VOLUME_ROOT}/smokeping/config:/config
+      - ${VOLUME_ROOT}/smokeping/data:/data
     ports:
       - "8001:80"
     environment:
@@ -33,7 +33,7 @@ services:
       - SUDO_PASSWORD=${CODE_SUDO_PASSWORD}
       - PROXY_DOMAIN=code-server.mutualis.com
     volumes:
-      - ./code-server:/config
+      - ${VOLUME_ROOT}/code-server:/config
     ports:
       - 8002:8443
     restart: unless-stopped
@@ -45,7 +45,7 @@ services:
     # environment:
     #   - "EXTENSIONS=auth-duo"
     volumes:
-      - ./guacamole:/config
+      - ${VOLUME_ROOT}/guacamole:/config
     ports:
       - "8003:8080"
     restart: always
