@@ -9,7 +9,7 @@ services:
       - '81:81'
       - '443:443'
     environment:
-      - DB_SQLITE_FILE="/data/database.sqlite"
+      - DB_SQLITE_FILE=/data/database.sqlite
     volumes:
       - ${VOLUME_ROOT}/npm/data:/data
       - ${VOLUME_ROOT}/npm/letsencrypt:/etc/letsencrypt
