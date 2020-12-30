@@ -16,7 +16,7 @@ case "$2" in
         ;;
 
   status)
-        docker-compose --file $FILE --env-file /mutualis-data/env ps -f
+        docker-compose --file $FILE --env-file /mutualis-data/env ps
         ;;
 
   remove)
