@@ -47,9 +47,18 @@ services:
     volumes:
       - ./guacamole:/config
     ports:
-      - "9001:8080"
+      - "8003:8080"
     restart: always
 
+  portainer_agent:
+    image: portainer/agent
+    container_name: agent
+    ports:
+      - 9001:9001
+    volumes:
+      - /var/run/docker.sock:/var/run/docker.sock
+      - /var/lib/docker/volumes:/var/lib/docker/volumes
+    restart: always
   # filestash:
   #   container_name: filestash
   #   image: machines/filestash

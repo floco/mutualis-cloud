@@ -1,43 +1,27 @@
 #! /bin/sh
 
 SCRIPT_PATH=$(dirname $(realpath $0))
-DIR=$SCRIPT_PATH/$1
+FILE="${1}.yml"
 
 case "$2" in
   start)
-        cd $DIR
-        docker-compose up -d
-        cd ..
-        exit 0
+        docker-compose up -d -f $FILE --env-file /mutualis-data/env
         ;;
   stop)
-        cd $DIR
-        docker-compose stop
-        cd ..
-        exit 0
+        docker-compose stop -f $FILE --env-file /mutualis-data/env
         ;;
 
   restart)
-        cd $DIR
-        docker-compose restart
-        cd ..
-        exit 0
+        docker-compose restart -f $FILE --env-file /mutualis-data/env
         ;;
 
   status)
-        cd $DIR
-        docker-compose ps
-        cd ..
-        exit 0
+        docker-compose ps -f $FILE --env-file /mutualis-data/env
         ;;
 
   remove)
-        cd $DIR
-        docker-compose stop
-        docker-compose rm
-        
-        cd ..
-        exit 0
+        docker-compose stop -f $FILE --env-file /mutualis-data/env
+        docker-compose rm -f $FILE --env-file /mutualis-data/env
         ;;
   *)
         echo "Usage: dc {cloud|media|wordpress} {start|stop|restart|status|remove}"

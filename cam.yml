@@ -1,0 +1,19 @@
+version: '3'
+services:
+
+  doods:
+    image: snowzach/doods:latest
+    container_name: doods
+    ports:
+      - "8080:8080"
+    restart: unless-stopped
+
+  portainer_agent:
+    image: portainer/agent
+    container_name: agent
+    ports:
+      - 9001:9001
+    volumes:
+      - /var/run/docker.sock:/var/run/docker.sock
+      - /var/lib/docker/volumes:/var/lib/docker/volumes
+    restart: always
