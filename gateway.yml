@@ -8,10 +8,12 @@ services:
       - '80:80'
       - '81:81'
       - '443:443'
+    environment:
+      - DB_SQLITE_FILE="/data/database.sqlite"
     volumes:
       - ${VOLUME_ROOT}/npm/data:/data
       - ${VOLUME_ROOT}/npm/letsencrypt:/etc/letsencrypt
-      - ${VOLUME_ROOT}/npm/config:/app/config
+    restart: always
 
   portainer_agent:
     image: portainer/agent
