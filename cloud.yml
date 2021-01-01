@@ -31,7 +31,7 @@ services:
       - TZ=Europe/Paris
       - PASSWORD=${CODE_PASSWORD}
       - SUDO_PASSWORD=${CODE_SUDO_PASSWORD}
-      - PROXY_DOMAIN=code-server.mutualis.com
+      - PROXY_DOMAIN=code.mutualis.com
     volumes:
       - ${VOLUME_ROOT}/code-server:/config
     ports:
