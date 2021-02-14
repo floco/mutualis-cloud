@@ -23,6 +23,13 @@ case "$2" in
         docker-compose --file $FILE --env-file /mutualis-data/env stop
         docker-compose --file $FILE --env-file /mutualis-data/env rm -f
         ;;
+
+  update)
+        docker-compose --file $FILE --env-file /mutualis-data/env pull
+        docker-compose --file $FILE --env-file /mutualis-data/env up -d --remove-orphans
+        docker image prune
+        ;;
+
   *)
         echo "Usage: dc {cloud|media|web|backup|gateway|...} {start|stop|restart|status|remove}"
         exit 1
