@@ -63,6 +63,7 @@ services:
 
   bitwarden:
     image: bitwardenrs/server
+    container_name: bitwarden
     volumes:
       - ${VOLUME_ROOT}/bitwarden:/data
     ports:
