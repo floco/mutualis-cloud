@@ -1,5 +1,4 @@
-# Services to include:
-# - c9.io
+# Possible Services to include:
 # - nextcloud, projectsend or pydio
 # - ansible silo
 # - strapi.io
@@ -22,6 +21,15 @@ services:
       - TZ=Europe/Paris
     restart: unless-stopped
 
+  bitwarden:
+    image: bitwardenrs/server
+    volumes:
+      - ${VOLUME_ROOT}/bitwarden:/data
+    environment:
+      WEBSOCKET_ENABLED: 'true' # Required to use websockets
+      SIGNUPS_ALLOWED: 'true'   # set to false to disable signups
+    restart: unless-stopped
+
   code-server:
     image: linuxserver/code-server
     container_name: code-server
@@ -38,28 +46,29 @@ services:
       - 8002:8443
     restart: unless-stopped
  
-  # GUACAMOLE: remote access
-  guacamole:
-    image: oznu/guacamole
-    container_name: guacamole
-    # environment:
-    #   - "EXTENSIONS=auth-duo"
-    volumes:
-      - ${VOLUME_ROOT}/guacamole:/config
-    ports:
-      - "8003:8080"
-    restart: unless-stopped
+# GUACAMOLE: remote access
+  # guacamole:
+  #   image: oznu/guacamole
+  #   container_name: guacamole
+  #   # environment:
+  #   #   - "EXTENSIONS=auth-duo"
+  #   volumes:
+  #     - ${VOLUME_ROOT}/guacamole:/config
+  #   ports:
+  #     - "8003:8080"
+  #   restart: unless-stopped
 
-  portainer_agent:
-    image: portainer/agent
-    container_name: agent
-    ports:
-      - 9001:9001
-    volumes:
-      - /var/run/docker.sock:/var/run/docker.sock
-      - /var/lib/docker/volumes:/var/lib/docker/volumes
-    restart: unless-stopped
-  # filestash:
+  # portainer_agent:
+  #   image: portainer/agent
+  #   container_name: agent
+  #   ports:
+  #     - 9001:9001
+  #   volumes:
+  #     - /var/run/docker.sock:/var/run/docker.sock
+  #     - /var/lib/docker/volumes:/var/lib/docker/volumes
+  #   restart: unless-stopped
+
+# filestash:
   #   container_name: filestash
   #   image: machines/filestash
   #   restart: always
