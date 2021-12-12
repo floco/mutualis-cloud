@@ -15,12 +15,17 @@ services:
       - ${VOLUME_ROOT}/npm/letsencrypt:/etc/letsencrypt
     restart: unless-stopped
 
-  portainer_agent:
+  portainer_edge_agent:
     image: portainer/agent
-    container_name: agent
-    ports:
-      - 9001:9001
+    command: -H unix:///var/run/docker.sock
     volumes:
-      - /var/run/docker.sock:/var/run/docker.sock
+      - /:/host
       - /var/lib/docker/volumes:/var/lib/docker/volumes
+      - /var/run/docker.sock:/var/run/docker.sock
+      - ${VOLUME_ROOT}/portainer_agent:/data
+    environment:
+      - CAP_HOST_MANAGEMENT=1
+      - EDGE=1
+      - EDGE_ID=[YOUR EDGE ID]
+      - EDGE_KEY=[YOUR EDGE KEY]
     restart: unless-stopped
