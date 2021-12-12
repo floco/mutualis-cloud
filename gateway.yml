@@ -25,8 +25,8 @@ services:
       - /var/run/docker.sock:/var/run/docker.sock
       - ${VOLUME_ROOT}/portainer_agent:/data
     environment:
-      - CAP_HOST_MANAGEMENT=1
+#      - CAP_HOST_MANAGEMENT=1
       - EDGE=1
-      - EDGE_ID=[YOUR EDGE ID]
-      - EDGE_KEY=[YOUR EDGE KEY]
+      - EDGE_ID=${EDGE_ID}
+      - EDGE_KEY=${EDGE_KEY}
     restart: unless-stopped
