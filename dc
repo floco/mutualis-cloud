@@ -31,7 +31,7 @@ case "$2" in
         ;;
 
   *)
-        echo "Usage: dc {cloud|media|web|backup|gateway|drive...} {start|stop|restart|status|remove|update}"
+        echo "Usage: dc {admin|cloud|media|web|backup|gateway|drive...} {start|stop|restart|status|remove|update}"
         exit 1
 esac
 
