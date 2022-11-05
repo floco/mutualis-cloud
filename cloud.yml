@@ -62,7 +62,7 @@ services:
   #   restart: always
 
   bitwarden:
-    image: bitwardenrs/server
+    image: vaultwarden/server
     container_name: bitwarden
     volumes:
       - ${VOLUME_ROOT}/bitwarden:/data
