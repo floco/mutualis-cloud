@@ -190,5 +190,8 @@ services:
 
 volumes:
   postgres:
+
+networks:
+  immich_network:
     
 
