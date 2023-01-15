@@ -19,6 +19,7 @@ services:
 
   ghostfolio:
     image: ghostfolio/ghostfolio:latest
+    container_name: ghostfolio
     environment:
       DATABASE_URL: postgresql://${GF_PG_USER}:${GF_PG_PASSWORD}@postgres_gf:5432/${GF_PG_DB}?sslmode=prefer
       REDIS_HOST: 'redis_gf'
@@ -29,12 +30,14 @@ services:
 
   postgres_gf:
     image: postgres:12
+    container_name: ghostfolio_postgres
     volumes:
       - ${VOLUME_ROOT}/ghostfolio:/var/lib/postgresql/data
     restart: always
 
   redis_gf:
     image: 'redis:alpine'
+    container_name: ghostfolio_redis
     restart: always
 
   bitwarden:
