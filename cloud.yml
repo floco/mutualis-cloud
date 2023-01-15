@@ -21,24 +21,60 @@ services:
     image: ghostfolio/ghostfolio:latest
     container_name: ghostfolio
     environment:
-      DATABASE_URL: postgresql://${GF_PG_USER}:${GF_PG_PASSWORD}@postgres_gf:5432/${GF_PG_DB}?sslmode=prefer
-      REDIS_HOST: 'redis_gf'
-      REDIS_PASSWORD: ${GF_REDIS_PASSWORD}
+      - NODE_ENV=production
+      - ACCESS_TOKEN_SALT=${GF_ACCESS}
+      - JWT_SECRET_KEY=${GF_KEY}
+      - REDIS_HOST=ghostfolio-redis
+      - REDIS_PASSWORD=${GF_REDIS_PASSWORD}
+      - REDIS_PORT=6379
+      - DATABASE_URL=postgresql://${GF_PG_USER}:${GF_PG_PASSWORD}@ghostfolio-db:5432/${GF_PG_DB}?sslmode=prefer
     ports:
       - 8006:3333
+    depends_on:
+      - ghostfolio-db
+      - ghostfolio-redis
     restart: always
 
-  postgres_gf:
+  ghostfolio-db:
     image: postgres:12
-    container_name: ghostfolio_postgres
+    container_name: ghostfolio_db
     volumes:
-      - ${VOLUME_ROOT}/ghostfolio:/var/lib/postgresql/data
+      - ${VOLUME_ROOT}/ghostfolio/db:/var/lib/postgresql/data
+    environment:
+      POSTGRES_DB: ${GF_PG_DB}
+      POSTGRES_USER: ${GF_PG_USER}
+      POSTGRES_PASSWORD: ${GF_PG_PASSWORD}
     restart: always
 
-  redis_gf:
+  ghostfolio-redis:
     image: 'redis:alpine'
     container_name: ghostfolio_redis
+    environment:
+      REDIS_HOST: 'redis_gf'
+      REDIS_PASSWORD: ${GF_REDIS_PASSWORD}
+    volumes:
+      - ${VOLUME_ROOT}/ghostfolio/redis:/data
     restart: always
+
+
+GF_PG_USER=postgres
+GF_PG_PASSWORD=0q+loH9dLBXln7535mNOoTaltD1kex6Yeaw
+GF_PG_DB=ghostfolio-db
+GF_REDIS_PASSWORD=xF7JgZHU54GPA/LkZUiYFgSH6ioiokWN
+# CACHE
+REDIS_HOST=localhost
+REDIS_PORT=6379
+REDIS_PASSWORD=<INSERT_REDIS_PASSWORD>
+
+# POSTGRES
+POSTGRES_DB=ghostfolio-db
+POSTGRES_USER=user
+POSTGRES_PASSWORD=<INSERT_POSTGRES_PASSWORD>
+
+ACCESS_TOKEN_SALT=<INSERT_RANDOM_STRING>
+ALPHA_VANTAGE_API_KEY=
+DATABASE_URL=postgresql://${POSTGRES_USER}:${POSTGRES_PASSWORD}@localhost:5432/${POSTGRES_DB}?sslmode=prefer
+JWT_SECRET_KEY=<INSERT_RANDOM_STRING>
 
   bitwarden:
     image: vaultwarden/server
@@ -61,8 +97,8 @@ services:
     environment:
       - NODE_ENV=production
     depends_on:
-      - redis
-      - database
+      - immich_redis
+      - immich_database
     restart: always
 
   immich-microservices:
@@ -74,8 +110,8 @@ services:
     environment:
       - NODE_ENV=production
     depends_on:
-      - redis
-      - database
+      - immich_redis
+      - immich_database
     restart: always
 
   immich-machine-learning:
@@ -87,7 +123,7 @@ services:
     environment:
       - NODE_ENV=production
     depends_on:
-      - database
+      - immich_database
     restart: always
 
   immich-web:
@@ -99,12 +135,12 @@ services:
       - PUBLIC_IMMICH_SERVER_URL=${IMMICH_SERVER_URL}
     restart: always
 
-  redis:
+  immich_redis:
     container_name: immich_redis
     image: redis:6.2
     restart: always
 
-  database:
+  immich_database:
     container_name: immich_postgres
     image: postgres:14
     environment:
