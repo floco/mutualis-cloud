@@ -56,26 +56,6 @@ services:
       - ${VOLUME_ROOT}/ghostfolio/redis:/data
     restart: always
 
-
-GF_PG_USER=postgres
-GF_PG_PASSWORD=0q+loH9dLBXln7535mNOoTaltD1kex6Yeaw
-GF_PG_DB=ghostfolio-db
-GF_REDIS_PASSWORD=xF7JgZHU54GPA/LkZUiYFgSH6ioiokWN
-# CACHE
-REDIS_HOST=localhost
-REDIS_PORT=6379
-REDIS_PASSWORD=<INSERT_REDIS_PASSWORD>
-
-# POSTGRES
-POSTGRES_DB=ghostfolio-db
-POSTGRES_USER=user
-POSTGRES_PASSWORD=<INSERT_POSTGRES_PASSWORD>
-
-ACCESS_TOKEN_SALT=<INSERT_RANDOM_STRING>
-ALPHA_VANTAGE_API_KEY=
-DATABASE_URL=postgresql://${POSTGRES_USER}:${POSTGRES_PASSWORD}@localhost:5432/${POSTGRES_DB}?sslmode=prefer
-JWT_SECRET_KEY=<INSERT_RANDOM_STRING>
-
   bitwarden:
     image: vaultwarden/server
     container_name: bitwarden
