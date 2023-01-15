@@ -1,8 +1,4 @@
 # 102
-# Possible Services to include:
-# - nextcloud, projectsend or pydio
-# - ansible silo
-# - strapi.io
 
 version: '3'
 services:
@@ -19,64 +15,27 @@ services:
       - PUID=${PUID}
       - PGID=${PGID}
       - TZ=Europe/Paris
-    restart: unless-stopped
-
-  code-server:
-    image: linuxserver/code-server
-    container_name: code-server
-    environment:
-      - PUID=${PUID}
-      - PGID=${PGID}
-      - TZ=Europe/Paris
-      - PASSWORD=${CODE_PASSWORD}
-      - SUDO_PASSWORD=${CODE_SUDO_PASSWORD}
-      - PROXY_DOMAIN=code.mutualis.com
-    volumes:
-      - ${VOLUME_ROOT}/code-server:/config
-    ports:
-      - 8002:8443
-    restart: unless-stopped
+    restart: always
 
   ghostfolio:
     image: ghostfolio/ghostfolio:latest
     environment:
-      DATABASE_URL: postgresql://${POSTGRES_USER}:${POSTGRES_PASSWORD}@postgres_gf:5432/${POSTGRES_DB}?sslmode=prefer
+      DATABASE_URL: postgresql://${GF_PG_USER}:${GF_PG_PASSWORD}@postgres_gf:5432/${GF_PG_DB}?sslmode=prefer
       REDIS_HOST: 'redis_gf'
-      REDIS_PASSWORD: ${REDIS_PASSWORD}
+      REDIS_PASSWORD: ${GF_REDIS_PASSWORD}
     ports:
       - 8006:3333
+    restart: always
 
   postgres_gf:
     image: postgres:12
     volumes:
-      - postgres:/var/lib/postgresql/data
+      - ${VOLUME_ROOT}/ghostfolio:/var/lib/postgresql/data
+    restart: always
 
   redis_gf:
     image: 'redis:alpine'
-
-# GUACAMOLE: remote access
-  # guacamole:
-  #   image: oznu/guacamole
-  #   container_name: guacamole
-  #   # environment:
-  #   #   - "EXTENSIONS=auth-duo"
-  #   volumes:
-  #     - ${VOLUME_ROOT}/guacamole:/config
-  #   ports:
-  #     - "8003:8080"
-  #   restart: unless-stopped
-
-# FAVA: Finance management
-  # fava:
-  #   image: yegle/fava
-  #   container_name: fava
-  #   volumes:
-  #     - ./fava:/root
-  #   environment:
-  #     - BEANCOUNT_INPUT_FILE=/root/main.beancount
-  #   ports:
-  #     - "8004:5000"
-  #   restart: always
+    restart: always
 
   bitwarden:
     image: vaultwarden/server
@@ -88,107 +47,102 @@ services:
     environment:
       WEBSOCKET_ENABLED: 'true' # Required to use websockets
       SIGNUPS_ALLOWED: 'false'   # set to false to disable signups
-    restart: unless-stopped
+    restart: always
 
-  portainer_edge_agent:
-    image: portainer/agent
-    container_name: portainer_agent
-    command: -H unix:///var/run/docker.sock
+  immich-server:
+    container_name: immich_server
+    image: altran1502/immich-server:release
+    entrypoint: ["/bin/sh", "./start-server.sh"]
     volumes:
-      - /:/host
-      - /var/lib/docker/volumes:/var/lib/docker/volumes
-      - /var/run/docker.sock:/var/run/docker.sock
-      - ${VOLUME_ROOT}/portainer_agent:/data
+      - ${VOLUME_ROOT}/immich/photos:/usr/src/app/upload
     environment:
-      - EDGE=1
-      - EDGE_ID=${EDGE_ID_CLOUD}
-      - EDGE_KEY=${EDGE_KEY_CLOUD}
-      - EDGE_INSECURE_POLL=1
-    restart: unless-stopped
- 
+      - NODE_ENV=production
+    depends_on:
+      - redis
+      - database
+    restart: always
 
+  immich-microservices:
+    container_name: immich_microservices
+    image: altran1502/immich-server:release
+    entrypoint: ["/bin/sh", "./start-microservices.sh"]
+    volumes:
+      - ${VOLUME_ROOT}/immich/photos:/usr/src/app/upload
+    environment:
+      - NODE_ENV=production
+    depends_on:
+      - redis
+      - database
+    restart: always
 
-# filestash:
-  #   container_name: filestash
-  #   image: machines/filestash
-  #   restart: always
+  immich-machine-learning:
+    container_name: immich_machine_learning
+    image: altran1502/immich-machine-learning:release
+    entrypoint: ["/bin/sh", "./entrypoint.sh"]
+    volumes:
+      - ${VOLUME_ROOT}/immich/photos:/usr/src/app/upload
+    environment:
+      - NODE_ENV=production
+    depends_on:
+      - database
+    restart: always
+
+  immich-web:
+    container_name: immich_web
+    image: altran1502/immich-web:release
+    entrypoint: ["/bin/sh", "./entrypoint.sh"]
+    environment:
+      # Rename these values for svelte public interface
+      - PUBLIC_IMMICH_SERVER_URL=${IMMICH_SERVER_URL}
+    restart: always
+
+  redis:
+    container_name: immich_redis
+    image: redis:6.2
+    restart: always
+
+  database:
+    container_name: immich_postgres
+    image: postgres:14
+    environment:
+      POSTGRES_PASSWORD: ${IM_DB_PASSWORD}
+      POSTGRES_USER: ${IM_DB_USERNAME}
+      POSTGRES_DB: ${IM_DB_DATABASE_NAME}
+      PG_DATA: /var/lib/postgresql/data
+    volumes:
+      - ${VOLUME_ROOT}/immich/db:/var/lib/postgresql/data
+    restart: always
+
+  immich-proxy:
+    container_name: immich_proxy
+    image: altran1502/immich-proxy:release
+    environment:
+      # Make sure these values get passed through from the env file
+      - IMMICH_SERVER_URL
+      - IMMICH_WEB_URL
+    ports:
+      - 8007:8080
+    logging:
+      driver: none
+    depends_on:
+      - immich-server
+    restart: always
+
+  # code-server:
+  #   image: linuxserver/code-server
+  #   container_name: code-server
   #   environment:
   #     - PUID=${PUID}
   #     - PGID=${PGID}
+  #     - TZ=Europe/Paris
+  #     - PASSWORD=${CODE_PASSWORD}
+  #     - SUDO_PASSWORD=${CODE_SUDO_PASSWORD}
+  #     - PROXY_DOMAIN=code.mutualis.com
+  #   volumes:
+  #     - ${VOLUME_ROOT}/code-server:/config
   #   ports:
-  #   - "32768:8334"
-
-# AWX
-
-  # postgres:
-  #   image: "postgres:9.6"
-  #   environment:
-  #     POSTGRES_USER: awx
-  #     POSTGRES_PASSWORD: KgJKPMg73FwbV7xU7ur726gl
-  #     POSTGRES_DB: awx
+  #     - 8002:8443
   #   restart: always
-
-  # rabbitmq:
-  #   image: "rabbitmq:3"
-  #   environment:
-  #     RABBITMQ_DEFAULT_VHOST: awx
-  #   restart: always
-
-  # memcached:
-  #   image: "memcached:alpine"
-  #   restart: always
-
-  # awx_web:
-  #   image: "geerlingguy/awx_web:latest"
-  #   links:
-  #     - rabbitmq
-  #     - memcached
-  #     - postgres
-  #   ports:
-  #     - "8003:8052"
-  #   hostname: awxweb
-  #   user: root
-  #   environment:
-  #     SECRET_KEY: Omy8HqvtYcn24tSPqMRF3WGm
-  #     DATABASE_USER: awx
-  #     DATABASE_PASSWORD: KgJKPMg73FwbV7xU7ur726gl
-  #     DATABASE_NAME: awx
-  #     DATABASE_PORT: 5432
-  #     DATABASE_HOST: postgres
-  #     RABBITMQ_USER: guest
-  #     RABBITMQ_PASSWORD: K0ZAoDiOeNzsqKZZybb4XS2Z
-  #     RABBITMQ_HOST: rabbitmq
-  #     RABBITMQ_PORT: 5672
-  #     RABBITMQ_VHOST: awx
-  #     MEMCACHED_HOST: memcached
-  #     MEMCACHED_PORT: 11211
-  #   restart: always
-
-  # awx_task:
-  #   image: "geerlingguy/awx_task:latest"
-  #   links:
-  #     - rabbitmq
-  #     - memcached
-  #     - awx_web
-  #     - postgres
-  #   hostname: awx
-  #   user: root
-  #   environment:
-  #     SECRET_KEY: Omy8HqvtYcn24tSPqMRF3WGm
-  #     DATABASE_USER: awx
-  #     DATABASE_PASSWORD: KgJKPMg73FwbV7xU7ur726gl
-  #     DATABASE_NAME: awx
-  #     DATABASE_PORT: 5432
-  #     DATABASE_HOST: postgres
-  #     RABBITMQ_USER: guest
-  #     RABBITMQ_PASSWORD: K0ZAoDiOeNzsqKZZybb4XS2Z
-  #     RABBITMQ_HOST: rabbitmq
-  #     RABBITMQ_PORT: 5672
-  #     RABBITMQ_VHOST: awx
-  #     MEMCACHED_HOST: memcached
-  #     MEMCACHED_PORT: 11211
-  #   restart: always
-
 
 volumes:
   postgres:
