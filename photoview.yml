@@ -8,7 +8,7 @@ services:
       - MARIADB_DATABASE=photoview
       - MARIADB_USER=photoview
       - MARIADB_PASSWORD=photosecret
-      - MARIADB_RANDOM_ROOT_PASSWORD=1
+      - MARIADB_ROOT_PASSWORD=photosecret
     volumes:
       - /srv/dev-sdb1/photoview/db:/var/lib/mysql
 
