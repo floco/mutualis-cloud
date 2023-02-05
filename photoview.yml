@@ -48,7 +48,7 @@ services:
 
     labels:
       - "traefik.enable=true"
-      - "traefik.http.routers.photoview.entrypoints=web"
+#      - "traefik.http.routers.photoview.entrypoints=web"
       - "traefik.http.routers.photoview.rule=Host(`$PHOTOVIEW_HOST`)"
       - "traefik.http.services.photoview.loadbalancer.server.port=8008"
 #      - traefik.http.routers.photoview.middlewares=global-compress
