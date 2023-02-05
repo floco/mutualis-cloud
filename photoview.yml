@@ -45,3 +45,11 @@ services:
       # to the following: `/home/user/photos:/photos:ro`.
       # You can mount multiple paths, if your photos are spread across multiple directories.
       - /srv/dev-sdb1/sharedrive/Photos:/photos:ro
+
+    labels:
+      - 'traefik.enable=true'
+      - 'traefik.http.routers.photoview.entrypoints=websecure'
+      - 'traefik.http.routers.photoview.middlewares=global-compress'
+      - 'traefik.http.routers.photoview.rule=Host(`photoview.mutualis.com`)'
+      - 'traefik.http.routers.photoview.tls.certresolver=letsencrypt'
+      - 'traefik.http.services.photoview.loadbalancer.server.port=8008'
