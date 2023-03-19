@@ -11,7 +11,7 @@ services:
       - UID=${PUID}
       - GID=${PGID}
     volumes:
-      - ${DOWNLOAD}:/opt/pyload/Downloads
+      - ${VOLUME_ROOT}/download:/opt/pyload/Downloads
       - ${VOLUME_ROOT}/pyload:/opt/pyload/pyload-config
     restart: unless-stopped
 
@@ -26,35 +26,50 @@ services:
       - GID=1000
       - BEANCOUNT_FILE=/root/main.beancount
     volumes:
-      - ${FINANCE}:/root
+      - ${VOLUME_ROOT}/fava:/root
     restart: unless-stopped
 
- # ADGUARD: DNS protection
-  adguardhome:
-    image: adguard/adguardhome
-    container_name: adguardhome
-    ports:
-      - 53:53/tcp
-      - 53:53/udp
-      - 67:67/udp
-      - 68:68/tcp
-      - 853:853/tcp
-      - 8003:45158/tcp
+  pigallery2:
+    image: bpatrik/pigallery2:latest
+    container_name: pigallery2
+    environment:
+      - NODE_ENV=production # set to 'debug' for full debug logging
     volumes:
-      - ${VOLUME_ROOT}/adguard/work:/opt/adguardhome/work
-      - ${VOLUME_ROOT}/adguard/conf:/opt/adguardhome/conf
-    restart: unless-stopped
-
-# PORTAINER: Container Management
-  portainer:
-    container_name: portainer
-    image: portainer/portainer
-    volumes:
-      - /var/run/docker.sock:/var/run/docker.sock
-      - ${VOLUME_ROOT}/portainer:/data
+      - "${VOLUME_ROOT}/pigallery2/config:/app/data/config" # CHANGE ME
+      - "${VOLUME_ROOT}/pigallery2/data:/app/data/db"
+      - "/srv/dev-sdb1/sharedrive/Photos:/app/data/images:ro" # CHANGE ME, ':ro' means read-only
+      - "${VOLUME_ROOT}/pigallery2/tmp:/app/data/tmp" # CHANGE ME
     ports:
-      - 9000:9000
+      - 8003:80
     restart: always
+
+
+#  # ADGUARD: DNS protection
+#   adguardhome:
+#     image: adguard/adguardhome
+#     container_name: adguardhome
+#     ports:
+#       - 53:53/tcp
+#       - 53:53/udp
+#       - 67:67/udp
+#       - 68:68/tcp
+#       - 853:853/tcp
+#       - 8003:45158/tcp
+#     volumes:
+#       - ${VOLUME_ROOT}/adguard/work:/opt/adguardhome/work
+#       - ${VOLUME_ROOT}/adguard/conf:/opt/adguardhome/conf
+#     restart: unless-stopped
+
+# # PORTAINER: Container Management
+#   portainer:
+#     container_name: portainer
+#     image: portainer/portainer
+#     volumes:
+#       - /var/run/docker.sock:/var/run/docker.sock
+#       - ${VOLUME_ROOT}/portainer:/data
+#     ports:
+#       - 9000:9000
+#     restart: always
 
 
 # DASHMACHINE: portal
