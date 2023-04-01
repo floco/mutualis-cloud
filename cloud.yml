@@ -95,6 +95,7 @@ services:
       - DB_DATABASE_NAME=immich
       - REDIS_HOSTNAME=immich-redis
       - JWT_SECRET=${IM_JWT_SECRET}
+      - TYPESENSE_API_KEY=${IM_TYPESENSE_API_KEY}
     depends_on:
       - immich-redis
       - immich-db
@@ -118,6 +119,7 @@ services:
       - REDIS_HOSTNAME=immich-redis
       - JWT_SECRET=${IM_JWT_SECRET}
       - ENABLE_MAPBOX=false
+      - TYPESENSE_API_KEY=${IM_TYPESENSE_API_KEY}
     depends_on:
       - immich-redis
       - immich-db
