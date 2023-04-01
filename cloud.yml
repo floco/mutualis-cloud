@@ -99,7 +99,7 @@ services:
     depends_on:
       - immich-redis
       - immich-db
-      - immich-typesense
+      - typesense
     restart: always
     networks:
       - immich_network
@@ -123,7 +123,7 @@ services:
     depends_on:
       - immich-redis
       - immich-db
-      - immich-typesense
+      - typesense
     restart: always
     networks:
       - immich_network
@@ -177,7 +177,7 @@ services:
     networks:
       - immich_network
 
-  immich-typesense:
+  typesense:
     container_name: immich-typesense
     image: typesense/typesense:0.24.0
     environment:
