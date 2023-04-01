@@ -187,6 +187,7 @@ services:
       driver: none
     volumes:
       - ${VOLUME_ROOT}/immich/tsdata:/data
+    restart: always
     networks:
       - immich_network
     
