@@ -98,6 +98,7 @@ services:
     depends_on:
       - immich-redis
       - immich-db
+      - immich-typesense
     restart: always
     networks:
       - immich_network
@@ -120,6 +121,7 @@ services:
     depends_on:
       - immich-redis
       - immich-db
+      - immich-typesense
     restart: always
     networks:
       - immich_network
@@ -172,6 +174,20 @@ services:
     restart: always
     networks:
       - immich_network
+
+  typesense:
+    container_name: immich-typesense
+    image: typesense/typesense:0.24.0
+    environment:
+      - TYPESENSE_API_KEY=${TYPESENSE_API_KEY}
+      - TYPESENSE_DATA_DIR=/data
+    logging:
+      driver: none
+    volumes:
+      - ${VOLUME_ROOT}/immich/tsdata:/data
+    networks:
+      - immich_network
+    
 
   # code-server:
   #   image: linuxserver/code-server
