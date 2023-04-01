@@ -175,11 +175,11 @@ services:
     networks:
       - immich_network
 
-  typesense:
+  immich-typesense:
     container_name: immich-typesense
     image: typesense/typesense:0.24.0
     environment:
-      - TYPESENSE_API_KEY=${TYPESENSE_API_KEY}
+      - TYPESENSE_API_KEY=${IM_TYPESENSE_API_KEY}
       - TYPESENSE_DATA_DIR=/data
     logging:
       driver: none
