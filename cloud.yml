@@ -204,12 +204,12 @@ services:
       - TZ=Europe/Paris
 
       # Default Recipe Settings
-      - RECIPE_PUBLIC: 'true'
-      - RECIPE_SHOW_NUTRITION: 'true'
-      - RECIPE_SHOW_ASSETS: 'true'
-      - RECIPE_LANDSCAPE_VIEW: 'true'
-      - RECIPE_DISABLE_COMMENTS: 'false'
-      - RECIPE_DISABLE_AMOUNT: 'false'
+      - RECIPE_PUBLIC='true'
+      - RECIPE_SHOW_NUTRITION='true'
+      - RECIPE_SHOW_ASSETS='true'
+      - RECIPE_LANDSCAPE_VIEW='true'
+      - RECIPE_DISABLE_COMMENTS='false'
+      - RECIPE_DISABLE_AMOUNT='false'
 
       # Gunicorn
       # WEB_CONCURRENCY: 2
@@ -217,7 +217,7 @@ services:
       # MAX_WORKERS: 8
     volumes:
       - ${VOLUME_ROOT}/mealie:/app/data
-      
+
   # code-server:
   #   image: linuxserver/code-server
   #   container_name: code-server
