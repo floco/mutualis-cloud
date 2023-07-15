@@ -191,32 +191,32 @@ services:
     networks:
       - immich_network
     
-  mealie:
-    container_name: mealie
-    image: hkotel/mealie:latest
-    restart: always
-    ports:
-      - 8004:80
-    environment:
+  # mealie:
+  #   container_name: mealie
+  #   image: hkotel/mealie:latest
+  #   restart: always
+  #   ports:
+  #     - 8004:80
+  #   environment:
 
-      - PUID=${PUID}
-      - PGID=${PGID}
-      - TZ=Europe/Paris
+  #     - PUID=${PUID}
+  #     - PGID=${PGID}
+  #     - TZ=Europe/Paris
 
-      # Default Recipe Settings
-      - RECIPE_PUBLIC='true'
-      - RECIPE_SHOW_NUTRITION='true'
-      - RECIPE_SHOW_ASSETS='true'
-      - RECIPE_LANDSCAPE_VIEW='true'
-      - RECIPE_DISABLE_COMMENTS='false'
-      - RECIPE_DISABLE_AMOUNT='false'
+  #     # Default Recipe Settings
+  #     - RECIPE_PUBLIC='true'
+  #     - RECIPE_SHOW_NUTRITION='true'
+  #     - RECIPE_SHOW_ASSETS='true'
+  #     - RECIPE_LANDSCAPE_VIEW='true'
+  #     - RECIPE_DISABLE_COMMENTS='false'
+  #     - RECIPE_DISABLE_AMOUNT='false'
 
-      # Gunicorn
-      # WEB_CONCURRENCY: 2
-      # WORKERS_PER_CORE: 0.5
-      # MAX_WORKERS: 8
-    volumes:
-      - ${VOLUME_ROOT}/mealie:/app/data
+  #     # Gunicorn
+  #     # WEB_CONCURRENCY: 2
+  #     # WORKERS_PER_CORE: 0.5
+  #     # MAX_WORKERS: 8
+  #   volumes:
+  #     - ${VOLUME_ROOT}/mealie:/app/data
 
   # code-server:
   #   image: linuxserver/code-server
