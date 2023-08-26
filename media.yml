@@ -29,19 +29,19 @@ services:
       - ${VOLUME_ROOT}/fava:/root
     restart: unless-stopped
 
-  pigallery2:
-    image: bpatrik/pigallery2:latest
-    container_name: pigallery2
-    environment:
-      - NODE_ENV=production # set to 'debug' for full debug logging
-    volumes:
-      - "${VOLUME_ROOT}/pigallery2/config:/app/data/config" # CHANGE ME
-      - "${VOLUME_ROOT}/pigallery2/data:/app/data/db"
-      - "/srv/dev-sdb1/sharedrive/Photos:/app/data/images:ro" # CHANGE ME, ':ro' means read-only
-      - "${VOLUME_ROOT}/pigallery2/tmp:/app/data/tmp" # CHANGE ME
-    ports:
-      - 8003:80
-    restart: always
+  # pigallery2:
+  #   image: bpatrik/pigallery2:latest
+  #   container_name: pigallery2
+  #   environment:
+  #     - NODE_ENV=production # set to 'debug' for full debug logging
+  #   volumes:
+  #     - "${VOLUME_ROOT}/pigallery2/config:/app/data/config" # CHANGE ME
+  #     - "${VOLUME_ROOT}/pigallery2/data:/app/data/db"
+  #     - "/srv/dev-sdb1/sharedrive/Photos:/app/data/images:ro" # CHANGE ME, ':ro' means read-only
+  #     - "${VOLUME_ROOT}/pigallery2/tmp:/app/data/tmp" # CHANGE ME
+  #   ports:
+  #     - 8003:80
+  #   restart: always
 
 
 #  # ADGUARD: DNS protection
