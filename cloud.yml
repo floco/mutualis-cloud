@@ -200,7 +200,7 @@ services:
       - TZ=Europe/Paris
     volumes:
       - ${VOLUME_ROOT}/syncthing/config:/config
-      - ${VOLUME_ROOT}/gallery:/gallery
+      - ${VOLUME_ROOT}/immich/gallery:/gallery
     ports:
       - 8384:8384
       - 22000:22000/tcp
